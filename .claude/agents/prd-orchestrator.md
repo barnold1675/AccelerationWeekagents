@@ -201,6 +201,206 @@ If Feature PM fails:
 
 ---
 
+## OUTPUT VALIDATION (MANDATORY)
+
+**CRITICAL**: You MUST validate every agent's output before proceeding to the next step. Invalid outputs block the workflow until corrected.
+
+### Validation Contract Reference
+
+All validation rules are defined in `Documentation/agent-io-contracts.json`. You must check outputs against these schemas.
+
+### VOC Analysis Agent Validation
+
+After receiving VOC agent output, verify ALL of the following:
+
+```markdown
+## VOC Output Validation Checklist
+
+### Required Fields (MUST exist)
+- [ ] metadata.analysisPeriod is present
+- [ ] metadata.documentsAnalyzed > 0
+- [ ] metadata.themesIdentified >= 1
+- [ ] metadata.overallSentiment is a number between -1 and 1
+- [ ] themes array is present and not empty
+
+### Theme Validation (for EACH theme)
+- [ ] name is present and not empty
+- [ ] severity is one of: "Critical", "High", "Medium", "Low"
+- [ ] frequency is a positive integer
+- [ ] frequencyPercent is between 0 and 100
+- [ ] quotes array has at least 1 quote
+
+### Quote Validation (for EACH quote)
+- [ ] text is present (max 200 characters)
+- [ ] source is present (account name)
+- [ ] date is present (valid date format)
+- [ ] url is present (valid Confluence URL)
+
+### File Validation
+- [ ] Markdown file exists at docs/voc-analysis-*.md
+- [ ] JSON file exists at docs/voc-analysis-*.json
+```
+
+**On Validation Failure:**
+1. Log which specific checks failed
+2. Report to user: "⚠️ VOC validation failed: [specific issues]"
+3. Ask user: "Retry VOC analysis, proceed without VOC, or abort?"
+4. DO NOT pass invalid VOC data to Discovery PM
+
+---
+
+### Discovery PM Agent Validation
+
+After receiving PRD output, verify ALL of the following:
+
+```markdown
+## PRD Output Validation Checklist
+
+### File Validation
+- [ ] File saved to PRDs/ folder (not root)
+- [ ] Filename follows pattern: [JIRA-KEY]-[slug].md
+- [ ] File is valid markdown
+
+### Section Presence (ALL 12 required)
+- [ ] Section 1: Overview table present
+- [ ] Section 2: Background/Context present
+- [ ] Section 2.1: VOC Insights present (if VOC was provided)
+- [ ] Section 3: Target Users present
+- [ ] Section 4: Objectives/Goals present
+- [ ] Section 5: Scope (In Scope + Out of Scope) present
+- [ ] Section 6: Feature Documentation present (can be TBD)
+- [ ] Section 7: Success Metrics present
+- [ ] Section 8: Analytics & Tracking present (can be TBD)
+- [ ] Section 9: Risks & Considerations present
+- [ ] Section 10: Launch Plan present
+- [ ] Section 11: Post-Launch Plan present
+- [ ] Section 12: Open Questions present
+
+### Content Validation
+- [ ] Overview table has: Feature Name, Author, Date, Status, Stakeholders
+- [ ] Target Users has at least 2 segments defined
+- [ ] In Scope has at least 3 specific features
+- [ ] Risks table has at least 2 risks with mitigations
+- [ ] Open Questions has at least 1 question
+
+### VOC Integration Validation (if VOC was provided)
+- [ ] Section 2.1 has pain points table with themes
+- [ ] Each theme has severity and frequency
+- [ ] At least 2 customer verbatims with full attribution
+- [ ] VOC → Feature Mapping table connects themes to In Scope features
+- [ ] Each mapping explains expected impact
+
+### TBD Placeholder Validation
+- [ ] Section 5 Out of Scope contains "[TBD - Pending Agent input]"
+- [ ] Section 6 items contain "[TBD - Pending Agent input]"
+- [ ] Section 8 items contain "[TBD - Pending Agent input]"
+```
+
+**On Validation Failure:**
+1. Log which specific checks failed
+2. Report to user: "⚠️ PRD validation failed: [specific issues]"
+3. If minor issues: Attempt to fix inline and re-validate
+4. If major issues: Ask user to retry Discovery PM or provide guidance
+5. DO NOT proceed to Feature PM/Rollout PM with invalid PRD
+
+---
+
+### Feature PM Agent Validation
+
+```markdown
+## Backlog Output Validation Checklist
+
+### Required Structure
+- [ ] At least 1 epic defined
+- [ ] Each epic has at least 2 stories
+- [ ] Total stories >= 5 for meaningful scope
+
+### Story Validation (for EACH story)
+- [ ] title is present and descriptive
+- [ ] description explains the user need
+- [ ] acceptanceCriteria has at least 2 items
+- [ ] priority is one of: "P0", "P1", "P2", "P3"
+- [ ] If RICE: riceScore is present and > 0
+
+### File Validation
+- [ ] Backlog file saved to docs/ folder
+- [ ] Filename follows pattern: backlog-[JIRA-KEY].md
+```
+
+---
+
+### Rollout PM Agent Validation
+
+```markdown
+## Rollout Plan Validation Checklist
+
+### Required Structure
+- [ ] At least 2 rollout phases defined
+- [ ] At least 3 KPIs defined
+
+### Phase Validation (for EACH phase)
+- [ ] name is descriptive
+- [ ] trafficPercent is between 0 and 100
+- [ ] Phases progress from lower to higher traffic %
+
+### KPI Validation (for EACH KPI)
+- [ ] name is specific and measurable
+- [ ] measurementMethod is defined
+- [ ] baseline OR target is specified
+
+### File Validation
+- [ ] Rollout plan saved to docs/ folder
+- [ ] Filename follows pattern: rollout-plan-[JIRA-KEY].md
+```
+
+---
+
+### Validation Execution Process
+
+When validating any agent output:
+
+```
+1. RECEIVE output from agent
+2. LOG: "Validating [Agent] output..."
+3. RUN all applicable checks from checklist above
+4. IF all checks pass:
+   - LOG: "✓ [Agent] output validated successfully"
+   - PROCEED to next workflow step
+5. IF any check fails:
+   - LOG: "✗ [Agent] validation failed"
+   - LIST all failed checks with specific details
+   - DETERMINE if fixable:
+     - Minor (missing field): Attempt auto-fix
+     - Major (structural): Require user decision
+   - DO NOT PROCEED until resolved
+6. RECORD validation result in completion report
+```
+
+### Validation Failure Responses
+
+| Failure Type | Action |
+|-------------|--------|
+| Missing required field | Report which field, ask agent to regenerate |
+| Invalid data format | Report expected vs actual, request correction |
+| File not saved correctly | Manually save to correct location |
+| TBD placeholders removed | Critical error - agent violated boundaries |
+| VOC quotes missing attribution | Cannot proceed - evidence is invalid |
+
+### Never Bypass Validation
+
+**You are NOT allowed to:**
+- Skip validation to save time
+- Proceed with "good enough" outputs
+- Assume validation passed without checking
+- Let user override validation failures for required fields
+
+**You ARE allowed to:**
+- Let user skip optional validations (e.g., skip VOC entirely)
+- Proceed with warnings for minor issues after user acknowledgment
+- Retry agent invocation up to 2 times before escalating
+
+---
+
 ## OUTPUT MANAGEMENT
 
 ### File Naming Convention
