@@ -89,17 +89,19 @@ mode: questions
 
 Before I create your PRD, please answer these questions:
 
-**Jira Issue:** ADX-199 ✓ (detected from your request)
+### 1. Jira Issue
+**What is the Jira issue key?** (e.g., ADX-198)
+> I'll validate this exists when I start execution.
 
-### 1. VOC Integration
-Should I include Voice of Customer analysis?
+### 2. VOC Integration
+**Should I include Voice of Customer analysis?**
 - [ ] Yes - Search Confluence for relevant customer feedback
 - [ ] No - Skip VOC section
 
 If yes, what keywords should I search for? (leave blank to auto-extract)
 >
 
-### 2. Confluence Publishing
+### 3. Confluence Publishing
 ...
 [rest of checklist]
 
