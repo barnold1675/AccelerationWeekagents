@@ -271,31 +271,54 @@ The VOC Analysis Agent extracts customer insights from Confluence:
 
 ## Self-Scoring & Audit Logging
 
-Every agent output includes comprehensive self-assessment and audit trails.
+Every agent output includes a 2-score self-assessment and comprehensive audit trails.
 
 ### Scoring System
 
+All agents use exactly **2 scores** on a 0.00-10.00 scale:
+
 | Score Type | Scale | Purpose |
 |------------|-------|---------|
-| **Confidence** | 0.0-1.0 | Agent's certainty in output quality |
-| **Relevance** | 0.00-10.00 | How well output addresses source input |
+| **Translation Score** | 0.00-10.00 | How accurately the source was translated into the output |
+| **Value Score** | 0.00-10.00 | How well the output solves actual customer problems |
+
+### Agent-Specific Score Focus
+
+| Agent | Translation Measures | Value Measures |
+|-------|---------------------|----------------|
+| **Discovery PM** | Epic/Jira → PRD accuracy | PRD addresses VOC themes |
+| **Feature PM** | PRD → Epics/Stories accuracy | High-value stories prioritized |
+| **Rollout PM** | Requirements → Launch Plan accuracy | Launch maximizes customer impact |
+| **VOC Analysis** | Feedback → Themes accuracy | Insights are PRD-ready and actionable |
 
 ### Example Scores
 
 ```markdown
-## Self-Assessment Summary
+## 📊 Self-Assessment
 
-**Overall Confidence**: 0.85 / 1.0
-**Ticket Relevance**: 8.2 / 10.0
-**Estimated Human Review Time**: 45 minutes
+### Scores
+- **Translation Score**: 8.5 / 10.0
+- **Value Score**: 8.8 / 10.0
+- **Overall Confidence**: 0.85
+- **Estimated Human Review Time**: 15 minutes
 
-### Confidence by Section
+### Translation Analysis
+**What I translated well**:
+- ✅ All Epic requirements captured in PRD sections
+- ✅ Agent boundaries respected (Sections 6, 8 marked TBD)
 
-| Section | Score | Reasoning |
-|---------|-------|-----------|
-| 1. Overview | 1.0 | Direct mapping from Jira metadata |
-| 2. Background | 0.9 | Clear problem, minor assumptions |
-| 3. Target Users | 0.85 | Segments inferred, needs validation |
+**Where translation could improve** (-1.5 points):
+- ⚠️ Pricing display assumptions need validation
+
+### Value Analysis
+**Customer problems addressed**:
+- ✅ **Search Accuracy** (45 mentions, $125K impact): Fuzzy matching, synonyms
+- ✅ **Page Load Speed** (32 mentions, $85K impact): Performance budgets
+- ❌ **Bulk Purchase** (18 mentions, $45K impact): Out of scope
+
+### Human Review Needed
+🔴 **Critical** (15 min): Product Owner: Validate scope decisions
+🟡 **Optional** (10 min): Engineering: Technical feasibility
 ```
 
 ### Audit Log Files
@@ -310,12 +333,12 @@ Each agent generates a JSON audit log alongside its output:
 ### Audit Log Contents
 
 - **Metadata**: Agent, version, timestamp, inputs/outputs
-- **Section assessments**: Per-section confidence and relevance
-- **Decisions made**: Key choices with alternatives considered
-- **Assumptions made**: Explicit assumptions with risk analysis
-- **Quality checks**: Pass/Fail results for mandatory checks
-- **Score improvement recommendations**: Actionable improvement steps
-- **Recommended review sequence**: Prioritized human review plan
+- **Scores**: Translation and value scores with detailed reasoning
+- **Translation breakdown**: Element-by-element source-to-output mapping
+- **Value breakdown**: VOC themes with how each was addressed
+- **Quality checks**: Pass/Warning/Fail results for mandatory checks
+- **Score improvement recommendations**: Specific actions with expected impact
+- **Human review guidance**: Critical and optional reviews needed
 
 ### Score Improvement Recommendations
 
@@ -323,23 +346,31 @@ Every output includes specific recommendations to improve scores:
 
 ```json
 {
-  "current_score": 8.2,
-  "target_score": 9.0,
-  "area": "Section 3: Target Users",
-  "recommendation": "Add validated user research data",
-  "implementation": "Conduct 3 user interviews per segment",
-  "estimated_impact": "+0.8 relevance"
+  "score_type": "translation",
+  "current_score": 8.5,
+  "target_score": 9.5,
+  "recommendation": "Validate pricing display assumptions",
+  "implementation": "Schedule 30-min call with Sales Director",
+  "estimated_impact": "+1.0 score"
 }
 ```
 
 ### Minimum Score Thresholds
 
-| Agent | Min Confidence | Min Relevance | Action if Below |
-|-------|----------------|---------------|-----------------|
-| Discovery PM | 0.70 | 6.0 | Manual review required |
-| Feature PM | 0.70 | 6.0 | Product lead approval |
-| Rollout PM | 0.75 | 7.0 | GTM team review |
-| VOC Analysis | 0.75 | 7.0 | Re-analyze with more data |
+| Agent | Min Translation | Min Value | Action if Below |
+|-------|-----------------|-----------|-----------------|
+| Discovery PM | 7.0 | 7.0 | Manual review required |
+| Feature PM | 7.0 | 7.0 | Product lead approval |
+| Rollout PM | 7.0 | 7.0 | GTM team review |
+| VOC Analysis | 7.0 | 7.0 | Re-analyze with more data |
+
+### Example Audit Logs
+
+See `examples/audit-logs/` for complete examples:
+- `AUDIT_ADX-196_discovery_example.json`
+- `AUDIT_ADX-196_feature_example.json`
+- `AUDIT_ADX-196_rollout_example.json`
+- `AUDIT_VOC_search_example.json`
 
 For detailed scoring rubrics, see `docs/SCORING_RUBRIC.md`.
 

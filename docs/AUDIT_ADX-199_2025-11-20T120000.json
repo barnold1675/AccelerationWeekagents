@@ -1,0 +1,67 @@
+{
+  "agent_name": "discovery-pm",
+  "issue_key": "ADX-199",
+  "timestamp": "2025-11-20T12:00:00.000Z",
+  "sections_completed": [
+    "1. Overview",
+    "2. Background/Context",
+    "3. Target Users",
+    "4. Objectives/Goals",
+    "5. In Scope",
+    "7. Success Metrics/KPIs",
+    "9. Risks & Considerations",
+    "10. Launch Plan",
+    "11. Post-Launch Plan",
+    "12. Open Questions"
+  ],
+  "sections_skipped": [
+    "5. Out of Scope",
+    "6. Feature Documentation",
+    "8. Analytics & Tracking"
+  ],
+  "self_scores": {
+    "1_overview": {
+      "confidence": 0.95,
+      "relevance": 10
+    },
+    "2_background_context": {
+      "confidence": 0.90,
+      "relevance": 9
+    },
+    "3_target_users": {
+      "confidence": 0.85,
+      "relevance": 9
+    },
+    "4_objectives_goals": {
+      "confidence": 0.90,
+      "relevance": 10
+    },
+    "5_in_scope": {
+      "confidence": 0.85,
+      "relevance": 9
+    },
+    "7_success_metrics": {
+      "confidence": 0.80,
+      "relevance": 9
+    },
+    "9_risks_considerations": {
+      "confidence": 0.85,
+      "relevance": 9
+    },
+    "10_launch_plan": {
+      "confidence": 0.80,
+      "relevance": 8
+    },
+    "11_post_launch_plan": {
+      "confidence": 0.85,
+      "relevance": 8
+    },
+    "12_open_questions": {
+      "confidence": 0.90,
+      "relevance": 9
+    }
+  },
+  "overall_confidence": 0.865,
+  "overall_relevance": 9.0,
+  "rationale": "PRD comprehensively addresses all four stated problems (no data when OOS, poor replacement suggestions, limited brand introduction, customer frustration) and all five user constraints (time-sensitive decisions, budget adherence, brand loyalty, bulk purchasing). Target users map directly to 'returning users' and implicitly serve 'manufacturers' through brand introduction features. Goals align with stated objectives. Confidence scores reflect reliance on issue description without direct customer research validation; some technical details require engineering review. Relevance scores high due to direct mapping from issue requirements to PRD content."
+}

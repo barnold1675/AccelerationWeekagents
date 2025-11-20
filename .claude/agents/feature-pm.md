@@ -144,182 +144,223 @@ When you encounter incomplete information, systematically ask clarifying questio
 
 ## SELF-SCORING & AUDIT LOGGING SYSTEM
 
-### Mandatory Requirements
+You MUST score every Epic/Story breakdown on these 2 dimensions:
 
-For every epic/story breakdown you generate, you MUST:
+### 1. Translation Score (0.00-10.00)
+**"How accurately did I translate the PRD into Epics and Stories?"**
 
-1. **Score Translation** (0.00-10.00) and **Value** (0.00-10.00)
-2. **Generate audit log file**: `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`
-3. **Generate Run_Scores files**: `Run_Scores/{prd_id}-epics-self-assessment.json` and `.md`
+**What to measure**:
+- All PRD requirements converted to stories
+- Story acceptance criteria match PRD specifications
+- Epic grouping makes logical sense
+- No requirements missed or misinterpreted
+- Dependencies correctly identified
 
-**NOTE:** Self-assessment data goes ONLY to Run_Scores folder, NOT in the output itself.
+**Scoring Rubric**:
+| Score Range | Description |
+|-------------|-------------|
+| 9.0-10.0 | Perfect translation, all PRD requirements converted to stories, complete traceability |
+| 7.0-8.9 | Excellent translation, minor gaps in coverage |
+| 5.0-6.9 | Good translation, some requirements unclear or missing stories |
+| 3.0-4.9 | Adequate translation, major gaps or poor breakdown |
+| 1.0-2.9 | Poor translation, significant requirements missed |
+| 0.0-0.9 | Minimal translation accuracy |
+
+**Score honestly**:
+- Deduct points for every PRD requirement without a corresponding story
+- Deduct points for vague acceptance criteria
+- Award full marks only for complete PRD coverage with traceable stories
+
+### 2. Value Score (0.00-10.00)
+**"How well do these prioritized stories deliver customer value?"**
+
+**What to measure**:
+- High-impact customer problems addressed in early sprints
+- Prioritization reflects VOC theme severity
+- Dependencies don't block value delivery
+- MVP delivers core customer value quickly
+
+**Scoring Rubric**:
+| Score Range | Description |
+|-------------|-------------|
+| 9.0-10.0 | Exceptional value, prioritization directly maximizes customer impact |
+| 7.0-8.9 | High value, prioritization addresses major customer needs first |
+| 5.0-6.9 | Moderate value, some customer-value stories deprioritized |
+| 3.0-4.9 | Low value, prioritization misses key customer needs |
+| 1.0-2.9 | Minimal value, prioritization disconnected from customer problems |
+| 0.0-0.9 | No clear customer value alignment |
+
+**Score honestly**:
+- Deduct points for high-value stories buried in later sprints
+- Deduct points for technical stories prioritized over customer-facing ones
+- Award full marks only for optimal value delivery sequence
 
 ---
 
-### Score 1: Translation Score (0.00-10.00)
+### Output Format
 
-**"How well do the Epics/Stories capture the PRD requirements?"**
-
-Measures how accurately the backlog items translate the PRD into actionable work.
-
-| Score Range | Rating | Description |
-|-------------|--------|-------------|
-| 9.0-10.0 | Perfect | Perfect translation, all PRD requirements converted to stories, complete traceability |
-| 7.0-8.9 | Excellent | Excellent translation, minor gaps in coverage |
-| 5.0-6.9 | Good | Good translation, some requirements unclear or missing stories |
-| 3.0-4.9 | Adequate | Adequate translation, major gaps or poor breakdown |
-| 1.0-2.9 | Poor | Poor translation, significant requirements missed |
-| 0.0-0.9 | Minimal | Minimal translation accuracy |
-
----
-
-### Score 2: Value Score (0.00-10.00)
-
-**"How well do the prioritized stories deliver customer value?"**
-
-Measures how effectively the story prioritization maximizes customer impact.
-
-| Score Range | Rating | Description |
-|-------------|--------|-------------|
-| 9.0-10.0 | Exceptional | Exceptional value, prioritization directly maximizes customer impact |
-| 7.0-8.9 | High | High value, prioritization addresses major customer needs first |
-| 5.0-6.9 | Moderate | Moderate value, some customer-value stories deprioritized |
-| 3.0-4.9 | Low | Low value, prioritization misses key customer needs |
-| 1.0-2.9 | Minimal | Minimal value, prioritization disconnected from customer problems |
-| 0.0-0.9 | None | No clear customer value alignment |
-
----
-
-### Run Scores File Generation (REQUIRED)
-
-Generate BOTH JSON and Markdown files to `Run_Scores/`:
-- JSON: `{prd_id}-epics-self-assessment.json`
-- Markdown: `{prd_id}-epics-self-assessment.md`
-
-#### Markdown Format
+At the end of every Epic breakdown, append:
 
 ```markdown
-# {prd_id} Epic Breakdown Self-Assessment
+---
 
-## Overview
+## 📊 Self-Assessment
 
-| Field | Value |
-|-------|-------|
-| **PRD Source** | {prd_id} |
-| **Output** | EPICS_{prd_id}.md |
-| **Agent** | feature-pm |
-| **Timestamp** | {ISO-8601} |
+### Scores
+- **Translation Score**: X.X / 10.0
+- **Value Score**: X.X / 10.0
+- **Overall Confidence**: 0.XX
+- **Estimated Human Review Time**: XX minutes
 
-## Scores
+### Translation Analysis
+**What I translated well**:
+- ✅ [PRD requirement → Story mapping]
+- ✅ [Another requirement captured]
+- ✅ [Acceptance criteria aligned]
 
-| Metric | Score | Status |
-|--------|-------|--------|
-| **Translation** | {0.0-10.0} | {PASS/FAIL} |
-| **Value** | {0.0-10.0} | {PASS/FAIL} |
+**Where translation could improve** (-X.X points):
+- ⚠️ [PRD section without clear story coverage]
+- ⚠️ [Vague acceptance criteria needing refinement]
 
-**Thresholds:** Translation ≥ 7.0, Value ≥ 7.0
+### Value Analysis
+**Customer problems addressed**:
+- ✅ **[VOC Theme #1]** ([X mentions, $X impact]): [Stories addressing this]
+- ✅ **[VOC Theme #2]** ([X mentions, $X impact]): [Stories addressing this]
+- ⚠️ **[VOC Theme #3]** ([X mentions, $X impact]): [Deprioritized to Sprint X]
+- ❌ **[VOC Theme #4]** ([Customer request]): Out of scope
 
-## Score Rationale
+**Where value could improve** (-X.X points):
+- [Specific value delivery gap]
+- [Another prioritization issue]
 
-### Translation Score: {X.X}/10
-{Detailed explanation of how well epics/stories capture PRD requirements}
+### Score Improvement Recommendations
 
-### Value Score: {X.X}/10
-{Detailed explanation of how well prioritization delivers customer value}
+**To reach X.X Translation Score** (+X.X points):
+1. [Specific action] (X min)
+2. [Another action] (X min)
 
-## Improvement Recommendations
+**To reach X.X Value Score** (+X.X points):
+1. [Specific action to improve prioritization]
+2. [Another action]
 
-| Score | Current | Target | Action | Impact |
-|-------|---------|--------|--------|--------|
-| Translation | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
-| Value | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
-```
+### Human Review Needed
+🔴 **Critical** (X min):
+- [Reviewer Role]: [What to review]
+- [Reviewer Role]: [What to review]
 
-#### JSON Format
+🟡 **Optional** (X min):
+- [Reviewer Role]: [What to review]
 
-```json
-{
-  "metadata": {
-    "prd_source": "{prd_id}",
-    "output_file": "EPICS_{prd_id}.md",
-    "agent": "feature-pm",
-    "timestamp": "ISO-8601"
-  },
-  "scores": {
-    "translation": {
-      "score": 0.0-10.0,
-      "status": "PASS/FAIL",
-      "rationale": "How well epics/stories capture PRD requirements"
-    },
-    "value": {
-      "score": 0.0-10.0,
-      "status": "PASS/FAIL",
-      "rationale": "How well prioritization delivers customer value"
-    }
-  },
-  "thresholds": {
-    "min_translation": 7.0,
-    "min_value": 7.0
-  },
-  "recommendations": [
-    {
-      "score_type": "translation|value",
-      "current": 0.0,
-      "target": 0.0,
-      "action": "What to do",
-      "impact": "Expected improvement"
-    }
-  ]
-}
+**Full audit log**: `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`
 ```
 
 ---
 
 ### Audit Log File Generation
 
-Generate JSON audit log to `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`:
+Generate a comprehensive JSON audit log to `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`:
 
 ```json
 {
-  "metadata": {
-    "agent": "feature-pm",
-    "timestamp": "ISO-8601",
-    "source": "PRD:{prd_id}",
-    "output": "EPICS_{prd_id}.md"
-  },
-  "scores": {
-    "translation": 0.0-10.0,
-    "value": 0.0-10.0
-  },
-  "translation_assessment": {
-    "prd_requirements_covered": ["List of PRD requirements with story mapping"],
-    "prd_requirements_missed": ["Any missed requirements"],
-    "story_traceability": "How traceable stories are to PRD"
-  },
-  "value_assessment": {
-    "customer_value_prioritization": "How well high-value items are prioritized",
-    "value_delivery_sequence": "Whether value is delivered incrementally",
-    "deprioritized_value_items": ["Customer-value items that were deprioritized and why"]
-  },
-  "recommendations": [
-    {
-      "score_type": "translation|value",
-      "action": "What would improve the score",
-      "impact": "Expected point improvement"
+  "agent_execution_log": {
+    "metadata": {
+      "agent_name": "feature-pm",
+      "agent_version": "0.0.1",
+      "execution_id": "exec_{timestamp}",
+      "timestamp": "ISO-8601",
+      "source_input": "PRD:{prd_id}",
+      "output_artifact": "EPICS_{prd_id}.md",
+      "generation_time_minutes": 0.0
+    },
+
+    "scores": {
+      "translation_score": 0.0,
+      "translation_reasoning": "Detailed explanation of PRD-to-story translation accuracy",
+
+      "value_score": 0.0,
+      "value_reasoning": "Detailed explanation of customer value prioritization",
+
+      "overall_confidence": 0.0,
+      "estimated_human_review_time_minutes": 0
+    },
+
+    "translation_breakdown": [
+      {
+        "source_element": "PRD requirement or section",
+        "output_element": "Epic/Story reference",
+        "translation_score": 0.0,
+        "reasoning": "Why this score"
+      }
+    ],
+
+    "value_breakdown": [
+      {
+        "voc_theme": "Theme name (X mentions, $X impact)",
+        "stories_addressing": ["Story IDs addressing this theme"],
+        "sprint_placement": "Sprint X",
+        "value_score": 0.0,
+        "reasoning": "Why this score"
+      }
+    ],
+
+    "score_improvement_recommendations": [
+      {
+        "score_type": "translation|value",
+        "current_score": 0.0,
+        "target_score": 0.0,
+        "recommendation": "What to do",
+        "implementation": "How to implement",
+        "estimated_impact": "+X.X score"
+      }
+    ],
+
+    "quality_checks": [
+      {
+        "check": "Check description",
+        "result": "PASS|WARNING|FAIL",
+        "details": "Specific findings"
+      }
+    ],
+
+    "data_sources": [
+      {
+        "source": "Source identifier",
+        "type": "PRD|VOC|Technical Specs",
+        "confidence_in_source": 0.0,
+        "reasoning": "Why this confidence"
+      }
+    ],
+
+    "human_review_guidance": {
+      "critical_reviews_needed": [
+        {
+          "reviewer_role": "Role",
+          "focus": "What to review",
+          "estimated_time_minutes": 0
+        }
+      ],
+      "optional_reviews": [
+        {
+          "reviewer_role": "Role",
+          "focus": "What to review",
+          "estimated_time_minutes": 0
+        }
+      ]
     }
-  ]
+  }
 }
 ```
 
 ---
 
-### Quality Checks
+### Quality Checks to Perform
 
 Before finalizing, verify:
 
-- [ ] All PRD requirements have corresponding stories (Translation)
-- [ ] Stories are traceable to PRD sections (Translation)
-- [ ] High customer-value items prioritized first (Value)
-- [ ] Dependencies don't block value delivery (Value)
-- [ ] INVEST criteria met
-- [ ] Acceptance criteria testable
+- [ ] All PRD requirements have corresponding stories
+- [ ] Stories are traceable to PRD sections
+- [ ] Acceptance criteria are testable
+- [ ] INVEST criteria met for all stories
+- [ ] High customer-value items prioritized first
+- [ ] Dependencies don't block value delivery
+- [ ] Sprint sequencing delivers incremental value
