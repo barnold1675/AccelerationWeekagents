@@ -154,9 +154,11 @@ For every PRD you generate, you MUST:
 
 1. **Score your overall confidence** (0.0-1.0) and **ticket relevance** (0.00-10.00)
 2. **Score each section individually** with detailed reasoning
-3. **Generate a separate audit log file**: `AUDIT_{ticket_id}_{timestamp}.json`
-4. **Include score improvement recommendations**
-5. **Append a "Self-Assessment Summary" section** at the end of the PRD
+3. **Generate a separate audit log file**: `docs/AUDIT_{ticket_id}_{timestamp}.json`
+4. **Generate Run_Scores files**: `Run_Scores/{ticket_id}-self-assessment.json` and `.md`
+5. **Include score improvement recommendations**
+
+**NOTE:** Self-assessment data goes ONLY to Run_Scores folder, NOT in the PRD itself. PRDs should end with Section 12 (Open Questions).
 
 ### Ticket Relevance Scoring Rubric (0.00-10.00)
 
@@ -181,73 +183,6 @@ Score each section based on:
 - **Completeness**: Did you fill all required sections?
 - **Boundary respect**: Did you avoid overstepping into Design/Analytics?
 - **Evidence backing**: Are claims supported by data?
-
-### PRD Output Format - Self-Assessment Summary
-
-At the end of every PRD, append this section:
-
-```markdown
----
-
-## Self-Assessment Summary
-
-**Overall Confidence**: [X.XX] / 1.0
-**Ticket Relevance**: [X.XX] / 10.0
-**Estimated Human Review Time**: [X] minutes
-
-### Confidence by Section
-
-| Section | Score | Reasoning |
-|---------|-------|-----------|
-| 1. Overview | [0.0-1.0] | [Why this score - specific reasoning] |
-| 2. Background | [0.0-1.0] | [Why this score - specific reasoning] |
-| 3. Target Users | [0.0-1.0] | [Why this score - specific reasoning] |
-| 4. Objectives | [0.0-1.0] | [Why this score - specific reasoning] |
-| 5. Scope | [0.0-1.0] | [Why this score - specific reasoning] |
-| 6. Feature Docs | [0.0-1.0] | [Correctly marked TBD for Design agent] |
-| 7. Success Metrics | [0.0-1.0] | [Why this score - specific reasoning] |
-| 8. Analytics | [0.0-1.0] | [Correctly marked TBD for Analytics agent] |
-| 9. Risks | [0.0-1.0] | [Why this score - specific reasoning] |
-| 10. Launch Plan | [0.0-1.0] | [Why this score - specific reasoning] |
-| 11. Post-Launch | [0.0-1.0] | [Why this score - specific reasoning] |
-| 12. Open Questions | [0.0-1.0] | [Why this score - specific reasoning] |
-
-### Areas Flagged for Human Review
-
-1. **[Section Name]** - [Why human review is needed]
-2. **[Section Name]** - [Why human review is needed]
-
-### Key Decisions Made
-
-| Decision | Confidence | Reasoning | Validation Needed |
-|----------|------------|-----------|-------------------|
-| [Decision 1] | [0.0-1.0] | [Why this choice] | [What to validate] |
-| [Decision 2] | [0.0-1.0] | [Why this choice] | [What to validate] |
-
-### Assumptions Made
-
-| Assumption | Confidence | Risk if Wrong | Validation Needed |
-|------------|------------|---------------|-------------------|
-| [Assumption 1] | [0.0-1.0] | [Impact] | [How to validate] |
-| [Assumption 2] | [0.0-1.0] | [Impact] | [How to validate] |
-
-### Score Improvement Recommendations
-
-To improve ticket relevance from [X.X] → [Y.Y]:
-
-| Current | Target | Area | Recommendation | Implementation | Est. Impact |
-|---------|--------|------|----------------|----------------|-------------|
-| [X.X] | [Y.Y] | [Section/Aspect] | [What would improve] | [How to implement] | [+X.X points] |
-
-### Recommended Review Sequence
-
-| Order | Reviewer | Sections | Est. Time | Focus |
-|-------|----------|----------|-----------|-------|
-| 1 | [Role] | [Sections] | [X min] | [What to look for] |
-| 2 | [Role] | [Sections] | [X min] | [What to look for] |
-
-**Full audit log**: See `AUDIT_{ticket_id}_{timestamp}.json`
-```
 
 ### Audit Log File Generation
 
@@ -473,41 +408,3 @@ Before finalizing, run these checks and include results in audit log:
 - [ ] Template structure preserved
 - [ ] All claims backed by Jira data or clearly marked as assumptions
 - [ ] Section scores sum to reasonable overall confidence
-
-### Example Self-Assessment
-
-```markdown
-## Self-Assessment Summary
-
-**Overall Confidence**: 0.85 / 1.0
-**Ticket Relevance**: 8.2 / 10.0
-**Estimated Human Review Time**: 45 minutes
-
-### Confidence by Section
-
-| Section | Score | Reasoning |
-|---------|-------|-----------|
-| 1. Overview | 1.0 | Direct mapping from Jira metadata - no interpretation needed |
-| 2. Background | 0.9 | Clear problem from ticket, minor competitive assumptions |
-| 3. Target Users | 0.85 | Segments inferred from description, needs validation |
-| 4. Objectives | 0.8 | Goals clear, impact estimates need analytics validation |
-| 5. Scope | 0.95 | In-scope well-defined in ticket |
-| 6. Feature Docs | 1.0 | Correctly marked TBD for Design agent |
-| 7. Success Metrics | 0.82 | KPIs defined, specific targets need validation |
-| 8. Analytics | 1.0 | Correctly marked TBD for Analytics agent |
-| 9. Risks | 0.70 | Standard risks identified, may miss domain-specific |
-| 10. Launch Plan | 0.60 | Basic outline, handoff to Rollout PM needed |
-| 11. Post-Launch | 0.75 | Standard practices defined |
-| 12. Open Questions | 0.95 | Genuine ambiguities identified |
-
-### Score Improvement Recommendations
-
-To improve from 8.2 → 9.5 ticket relevance:
-
-| Current | Target | Area | Recommendation | Implementation | Est. Impact |
-|---------|--------|------|----------------|----------------|-------------|
-| 8.2 | 9.0 | Section 3 | Add validated user research | Conduct 3 user interviews | +0.8 points |
-| 8.2 | 8.7 | Section 4 | Quantify all goals with baselines | Get analytics baseline data | +0.5 points |
-
-**Full audit log**: See `AUDIT_ADX-196_20251120_143205.json`
-```
