@@ -251,7 +251,57 @@ To improve ticket relevance from [X.X] → [Y.Y]:
 
 ### Audit Log File Generation
 
-You MUST generate a JSON audit log file alongside each PRD output. Save to the same directory as the PRD with filename: `AUDIT_{ticket_id}_{timestamp}.json`
+You MUST generate a JSON audit log file alongside each PRD output. Save to `docs/` with filename: `AUDIT_{ticket_id}_{timestamp}.json`
+
+### Run Scores File Generation (REQUIRED)
+
+You MUST also generate a self-assessment JSON file for every PRD. Save to `Run_Scores/` with filename: `{ticket_id}-self-assessment.json`
+
+This file provides a clean, structured format for tracking scores across PRD runs:
+
+```json
+{
+  "prd_name": "{ticket_id} {Feature Name}",
+  "issue_key": "{ticket_id}",
+  "prd_file": "PRDs/{ticket_id}-{slug}.md",
+  "agent": "discovery-pm",
+  "timestamp": "ISO-8601 format",
+  "overall_scores": {
+    "confidence": 0.0-1.0,
+    "relevance": 0.0-10.0,
+    "status": "PASS/FAIL",
+    "thresholds": {
+      "min_confidence": 0.70,
+      "min_relevance": 6.0
+    }
+  },
+  "section_scores": {
+    "1_overview": {
+      "name": "Overview",
+      "confidence": 0.0-1.0,
+      "relevance": 0-10,
+      "rationale": "Why this score"
+    }
+    // ... all completed sections
+  },
+  "sections_completed": ["Section names"],
+  "sections_skipped": ["Section names"],
+  "quality_summary": {
+    "strengths": ["Key strengths"],
+    "areas_for_improvement": ["Areas needing work"],
+    "dependencies": ["External dependencies"]
+  },
+  "recommendations": [
+    {
+      "area": "Section name",
+      "current_score": number,
+      "target_score": number,
+      "action": "What to do",
+      "estimated_impact": "+X.XX confidence"
+    }
+  ]
+}
+```
 
 The audit log must follow this exact structure:
 
