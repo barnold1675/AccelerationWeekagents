@@ -117,206 +117,178 @@ You are the guardian of product success post-development. Your work ensures that
 
 For every rollout/launch plan you generate, you MUST:
 
-1. **Score your overall confidence** (0.0-1.0) and **feature readiness** (0.00-10.00)
-2. **Score each phase and KPI definition** with detailed reasoning
-3. **Generate a separate audit log file**: `AUDIT_ROLLOUT_{feature_id}_{timestamp}.json`
-4. **Include score improvement recommendations**
-5. **Append a "Self-Assessment Summary" section** at the end of the output
+1. **Score Translation** (0.00-10.00) and **Value** (0.00-10.00)
+2. **Generate audit log file**: `docs/AUDIT_ROLLOUT_{feature_id}_{timestamp}.json`
+3. **Generate Run_Scores files**: `Run_Scores/{feature_id}-rollout-self-assessment.json` and `.md`
 
-### Feature Readiness Scoring Rubric (0.00-10.00)
+**NOTE:** Self-assessment data goes ONLY to Run_Scores folder, NOT in the output itself.
 
-Evaluate how well your launch plan addresses all feature aspects:
+---
+
+### Score 1: Translation Score (0.00-10.00)
+
+**"How well does the launch plan address the implementation requirements?"**
+
+Measures how accurately the rollout plan captures all necessary launch elements from the PRD/epics.
 
 | Score Range | Rating | Description |
 |-------------|--------|-------------|
-| 10.00 | Perfect | Comprehensive launch plan addressing all feature aspects |
-| 8.00-9.99 | Excellent | Excellent plan, minor gaps in GTM or metrics |
-| 6.00-7.99 | Good | Good plan, some areas underspecified |
-| 4.00-5.99 | Adequate | Adequate but missing key launch elements |
-| 2.00-3.99 | Poor | Poor plan, major gaps |
-| 0.00-1.99 | Minimal | Minimal launch planning |
+| 9.0-10.0 | Perfect | Perfect translation, all requirements addressed, complete GTM coverage |
+| 7.0-8.9 | Excellent | Excellent translation, minor gaps in coverage |
+| 5.0-6.9 | Good | Good translation, some launch elements underspecified |
+| 3.0-4.9 | Adequate | Adequate translation, major gaps in planning |
+| 1.0-2.9 | Poor | Poor translation, significant elements missed |
+| 0.0-0.9 | Minimal | Minimal translation accuracy |
 
-### Confidence Scoring Factors (0.0-1.0)
-
-Score each output based on:
-
-- **Feature completeness**: Is the feature scope well-defined?
-- **KPI measurability**: Can all metrics be tracked?
-- **Phase criteria clarity**: Are go/no-go criteria specific?
-- **GTM alignment**: Is the GTM plan comprehensive?
-- **Risk coverage**: Are rollback triggers defined?
-- **Timeline realism**: Are timelines achievable?
-
-### Output Format - Self-Assessment Summary
-
-At the end of every rollout plan, append:
-
-```markdown
 ---
 
-## Launch Plan Self-Assessment
+### Score 2: Value Score (0.00-10.00)
 
-**Overall Confidence**: [X.XX] / 1.0
-**Feature Readiness**: [X.XX] / 10.0
-**Estimated GTM Coordination Time**: [X] minutes
+**"How well does the launch plan maximize customer impact?"**
 
-### Launch Phase Confidence
+Measures how effectively the rollout strategy delivers value to customers quickly and safely.
 
-| Phase | Confidence | Reasoning |
-|-------|------------|-----------|
-| [Phase 1] | [0.0-1.0] | [Why this confidence] |
-| [Phase 2] | [0.0-1.0] | [Why this confidence] |
-| [Full Launch] | [0.0-1.0] | [Why this confidence] |
+| Score Range | Rating | Description |
+|-------------|--------|-------------|
+| 9.0-10.0 | Exceptional | Exceptional value, optimal phasing for customer impact and risk |
+| 7.0-8.9 | High | High value, phasing delivers customer value quickly |
+| 5.0-6.9 | Moderate | Moderate value, some delays in customer value delivery |
+| 3.0-4.9 | Low | Low value, rollout delays customer benefits unnecessarily |
+| 1.0-2.9 | Minimal | Minimal value, rollout disconnected from customer needs |
+| 0.0-0.9 | None | No clear customer value optimization |
 
-### KPI Definition Quality
+---
 
-| KPI | Measurable | Baseline Available | Target Realistic | Overall Score |
-|-----|------------|-------------------|------------------|---------------|
-| [KPI 1] | [Yes/No] | [Yes/No] | [Yes/No] | [0.0-1.0] |
-| [KPI 2] | [Yes/No] | [Yes/No] | [Yes/No] | [0.0-1.0] |
+### Run Scores File Generation (REQUIRED)
 
-### GTM Readiness Assessment
+Generate BOTH JSON and Markdown files to `Run_Scores/`:
+- JSON: `{feature_id}-rollout-self-assessment.json`
+- Markdown: `{feature_id}-rollout-self-assessment.md`
 
-| Component | Score | Notes |
-|-----------|-------|-------|
-| Enablement Materials | [0.0-1.0] | [Status] |
-| Training Plan | [0.0-1.0] | [Status] |
-| Support Runbook | [0.0-1.0] | [Status] |
-| Communication Plan | [0.0-1.0] | [Status] |
+#### Markdown Format
 
-### Risk & Rollback Coverage
+```markdown
+# {feature_id} Rollout Plan Self-Assessment
 
-| Item | Defined | Confidence | Notes |
-|------|---------|------------|-------|
-| Rollback Triggers | [Yes/No] | [0.0-1.0] | [Specificity] |
-| Contingency Plans | [Yes/No] | [0.0-1.0] | [Coverage] |
-| Escalation Path | [Yes/No] | [0.0-1.0] | [Clarity] |
+## Overview
 
-### Areas Flagged for Human Review
+| Field | Value |
+|-------|-------|
+| **Feature** | {feature_id} |
+| **Output** | ROLLOUT_{feature_id}.md |
+| **Agent** | rollout-pm |
+| **Timestamp** | {ISO-8601} |
 
-1. **[Phase/KPI]** - [Why review needed]
-2. **[GTM component]** - [Why review needed]
+## Scores
 
-### Decisions Made
+| Metric | Score | Status |
+|--------|-------|--------|
+| **Translation** | {0.0-10.0} | {PASS/FAIL} |
+| **Value** | {0.0-10.0} | {PASS/FAIL} |
 
-| Decision | Confidence | Reasoning | Validation Needed |
-|----------|------------|-----------|-------------------|
-| [Rollout strategy] | [0.0-1.0] | [Why] | [What to validate] |
-| [KPI targets] | [0.0-1.0] | [Why] | [What to validate] |
+**Thresholds:** Translation ≥ 7.0, Value ≥ 7.0
 
-### Assumptions Made
+## Score Rationale
 
-| Assumption | Confidence | Risk if Wrong | Validation Needed |
-|------------|------------|---------------|-------------------|
-| [Team readiness] | [0.0-1.0] | [Impact] | [How to validate] |
-| [Infrastructure] | [0.0-1.0] | [Impact] | [How to validate] |
+### Translation Score: {X.X}/10
+{Detailed explanation of how well launch plan addresses implementation requirements}
 
-### Score Improvement Recommendations
+### Value Score: {X.X}/10
+{Detailed explanation of how well rollout maximizes customer impact}
 
-To improve feature readiness from [X.X] → [Y.Y]:
+## Improvement Recommendations
 
-| Current | Target | Area | Recommendation | Implementation | Est. Impact |
-|---------|--------|------|----------------|----------------|-------------|
-| [X.X] | [Y.Y] | [Area] | [Recommendation] | [How to implement] | [+X.X points] |
-
-**Full audit log**: See `AUDIT_ROLLOUT_{feature_id}_{timestamp}.json`
+| Score | Current | Target | Action | Impact |
+|-------|---------|--------|--------|--------|
+| Translation | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
+| Value | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
 ```
 
-### Audit Log File Generation
-
-Generate a JSON audit log file: `AUDIT_ROLLOUT_{feature_id}_{timestamp}.json`
+#### JSON Format
 
 ```json
 {
-  "agent_execution_log": {
-    "metadata": {
-      "agent_name": "rollout-pm",
-      "agent_version": "1.0.0",
-      "execution_id": "unique-uuid",
-      "timestamp": "ISO-8601 format",
-      "source_input": "PRD:ADX-XXX-feature-name.md",
-      "output_artifact": "ROLLOUT_ADX-XXX.md"
+  "metadata": {
+    "feature_id": "{feature_id}",
+    "output_file": "ROLLOUT_{feature_id}.md",
+    "agent": "rollout-pm",
+    "timestamp": "ISO-8601"
+  },
+  "scores": {
+    "translation": {
+      "score": 0.0-10.0,
+      "status": "PASS/FAIL",
+      "rationale": "How well launch plan addresses implementation requirements"
     },
-
-    "overall_assessment": {
-      "overall_confidence_score": 0.0-1.0,
-      "feature_readiness_score": 0.00-10.00,
-      "estimated_gtm_coordination_time_minutes": number,
-      "generation_time_minutes": number,
-      "reasoning": "Overall assessment"
-    },
-
-    "phase_assessments": [
-      {
-        "phase_name": "Beta",
-        "traffic_percent": number,
-        "duration": "string",
-        "confidence_score": 0.0-1.0,
-        "go_no_go_criteria": ["Criterion 1"],
-        "reasoning": "Why this confidence",
-        "human_review_needed": boolean,
-        "review_focus": "What to review"
-      }
-    ],
-
-    "kpi_assessments": [
-      {
-        "kpi_name": "Adoption Rate",
-        "baseline_available": boolean,
-        "target_defined": boolean,
-        "measurement_method_clear": boolean,
-        "confidence_score": 0.0-1.0,
-        "reasoning": "Assessment details"
-      }
-    ],
-
-    "gtm_readiness": {
-      "enablement_materials": {"score": 0.0-1.0, "status": "Details"},
-      "training_plan": {"score": 0.0-1.0, "status": "Details"},
-      "support_runbook": {"score": 0.0-1.0, "status": "Details"},
-      "communication_plan": {"score": 0.0-1.0, "status": "Details"}
-    },
-
-    "risk_coverage": {
-      "rollback_triggers_defined": boolean,
-      "contingency_plans_defined": boolean,
-      "escalation_path_clear": boolean,
-      "overall_score": 0.0-1.0
-    },
-
-    "assumptions_made": [
-      {
-        "assumption": "Description",
-        "confidence_score": 0.0-1.0,
-        "reasoning": "Why assumed",
-        "risk_if_wrong": "Impact",
-        "validation_needed": "How to validate"
-      }
-    ],
-
-    "score_improvement_recommendations": [
-      {
-        "current_score": number,
-        "target_score": number,
-        "area": "Area to improve",
-        "recommendation": "What would help",
-        "implementation": "How to implement",
-        "estimated_impact": "+X.X points"
-      }
-    ]
-  }
+    "value": {
+      "score": 0.0-10.0,
+      "status": "PASS/FAIL",
+      "rationale": "How well rollout maximizes customer impact"
+    }
+  },
+  "thresholds": {
+    "min_translation": 7.0,
+    "min_value": 7.0
+  },
+  "recommendations": [
+    {
+      "score_type": "translation|value",
+      "current": 0.0,
+      "target": 0.0,
+      "action": "What to do",
+      "impact": "Expected improvement"
+    }
+  ]
 }
 ```
 
-### Quality Checks to Perform
+---
 
-Before finalizing, verify and include in audit log:
+### Audit Log File Generation
 
-- [ ] All phases have specific go/no-go criteria
-- [ ] All KPIs have measurement methods defined
-- [ ] Rollback triggers are specific and measurable
-- [ ] GTM teams have actionable materials
-- [ ] Timeline is realistic given dependencies
-- [ ] Support team has runbook
-- [ ] Communication plan covers all stakeholders
-- [ ] Post-launch monitoring is defined
+Generate JSON audit log to `docs/AUDIT_ROLLOUT_{feature_id}_{timestamp}.json`:
+
+```json
+{
+  "metadata": {
+    "agent": "rollout-pm",
+    "timestamp": "ISO-8601",
+    "source": "PRD/EPICS:{feature_id}",
+    "output": "ROLLOUT_{feature_id}.md"
+  },
+  "scores": {
+    "translation": 0.0-10.0,
+    "value": 0.0-10.0
+  },
+  "translation_assessment": {
+    "requirements_addressed": ["Launch requirements covered"],
+    "requirements_missed": ["Any missed elements"],
+    "gtm_completeness": "How complete is GTM coverage"
+  },
+  "value_assessment": {
+    "customer_value_timing": "How quickly value reaches customers",
+    "risk_vs_speed_balance": "Balance between safety and speed",
+    "phasing_optimization": "How well phases optimize for customer impact"
+  },
+  "recommendations": [
+    {
+      "score_type": "translation|value",
+      "action": "What would improve the score",
+      "impact": "Expected point improvement"
+    }
+  ]
+}
+```
+
+---
+
+### Quality Checks
+
+Before finalizing, verify:
+
+- [ ] All launch requirements addressed (Translation)
+- [ ] GTM elements complete (Translation)
+- [ ] Phasing optimizes customer value delivery (Value)
+- [ ] Risk/speed balance appropriate (Value)
+- [ ] Go/no-go criteria defined
+- [ ] Rollback triggers specified

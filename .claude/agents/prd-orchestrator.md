@@ -502,17 +502,17 @@ Every agent now produces self-assessment scores that you MUST validate before pr
 
 | Score | Scale | Description |
 |-------|-------|-------------|
-| **Confidence** | 0.0-1.0 | Agent's certainty in output quality |
-| **Relevance** | 0.00-10.00 | How well output addresses source input |
+| **Translation** | 0.00-10.00 | How accurately agent translated source into output |
+| **Value** | 0.00-10.00 | How well output solves actual customer problems |
 
 ### Minimum Score Thresholds
 
-| Agent | Min Confidence | Min Relevance | Action if Below |
-|-------|----------------|---------------|-----------------|
-| VOC Analysis | 0.75 | 7.0 | Re-analyze with more data or proceed without VOC |
-| Discovery PM | 0.70 | 6.0 | Manual review required before proceeding |
-| Feature PM | 0.70 | 6.0 | Product lead approval needed |
-| Rollout PM | 0.75 | 7.0 | GTM team review required |
+| Agent | Min Translation | Min Value | Action if Below |
+|-------|-----------------|-----------|-----------------|
+| VOC Analysis | 7.0 | 7.0 | Re-analyze with more data or proceed without VOC |
+| Discovery PM | 7.0 | 7.0 | Manual review required before proceeding |
+| Feature PM | 7.0 | 7.0 | Product lead approval needed |
+| Rollout PM | 7.0 | 7.0 | GTM team review required |
 
 ### Score Validation Process
 
@@ -522,22 +522,21 @@ After receiving each agent output, validate scores:
 ## Score Validation Checklist
 
 ### 1. Extract Scores
-- [ ] Overall confidence score present
-- [ ] Relevance score present (ticket/PRD/feedback coverage)
-- [ ] Self-Assessment Summary section exists
+- [ ] Translation score present (0.0-10.0)
+- [ ] Value score present (0.0-10.0)
+- [ ] Run_Scores files exist (JSON and MD)
 
 ### 2. Compare to Thresholds
-- [ ] Confidence >= minimum for agent type
-- [ ] Relevance >= minimum for agent type
+- [ ] Translation >= 7.0
+- [ ] Value >= 7.0
 
-### 3. Review Flagged Areas
-- [ ] Check "Areas Flagged for Human Review" section
-- [ ] Note decisions with confidence < 0.7
-- [ ] Note assumptions with high risk-if-wrong
+### 3. Review Rationale
+- [ ] Translation rationale explains accuracy
+- [ ] Value rationale explains customer problem coverage
 
 ### 4. Assess Improvement Recommendations
-- [ ] Review "Score Improvement Recommendations"
-- [ ] Determine if quick fixes can improve score
+- [ ] Review improvement recommendations table
+- [ ] Determine if quick fixes can improve scores
 ```
 
 ### Score Validation Responses
@@ -545,8 +544,8 @@ After receiving each agent output, validate scores:
 **If scores PASS minimum thresholds:**
 ```
 ✓ [Agent] scores validated
-  Confidence: 0.85/1.0 (min: 0.70) ✓
-  Relevance: 8.2/10.0 (min: 6.0) ✓
+  Translation: 8.5/10.0 (min: 7.0) ✓
+  Value: 8.2/10.0 (min: 7.0) ✓
   Proceeding to next step...
 ```
 
@@ -554,16 +553,16 @@ After receiving each agent output, validate scores:
 ```
 ⚠️ [Agent] scores below minimum
 
-Confidence: 0.65/1.0 (min: 0.70) ✗
-Relevance: 5.5/10.0 (min: 6.0) ✗
+Translation: 6.5/10.0 (min: 7.0) ✗
+Value: 5.5/10.0 (min: 7.0) ✗
 
-Top Issues Flagged:
-1. Section 3: Target Users - confidence 0.50 (needs user research)
-2. Section 4: Objectives - relevance 4.0 (missing key requirements)
+Issues:
+- Translation: Missing key requirements from source ticket
+- Value: Customer pain points not clearly addressed
 
 Score Improvement Options:
-1. Implement recommendation: "Add user interview data" (+0.8 relevance)
-2. Retry agent with additional context
+1. Implement recommendation to add missing requirements (+1.5 translation)
+2. Retry agent with additional VOC context (+2.0 value)
 3. Proceed with manual review flagged (user approval required)
 4. Abort workflow
 
@@ -577,12 +576,12 @@ Each agent also produces an audit log JSON file. Validate:
 ```markdown
 ## Audit Log Validation
 
-- [ ] Audit log file exists: AUDIT_{id}_{timestamp}.json
+- [ ] Audit log file exists: docs/AUDIT_{id}_{timestamp}.json
 - [ ] metadata section complete
-- [ ] overall_assessment has confidence and relevance scores
-- [ ] section_assessments array present
-- [ ] assumptions_made array documents all assumptions
-- [ ] score_improvement_recommendations present
+- [ ] scores has translation and value
+- [ ] translation_assessment explains accuracy
+- [ ] value_assessment explains customer problem coverage
+- [ ] recommendations present
 ```
 
 ### Aggregate Package Score
@@ -592,22 +591,21 @@ After all agents complete, calculate aggregate scores for the full PRD package:
 ```markdown
 ## PRD Package Score Summary
 
-| Agent | Confidence | Relevance | Status |
-|-------|------------|-----------|--------|
-| VOC Analysis | 0.85 | 8.5 | ✓ Pass |
-| Discovery PM | 0.82 | 8.0 | ✓ Pass |
-| Feature PM | 0.78 | 7.8 | ✓ Pass |
+| Agent | Translation | Value | Status |
+|-------|-------------|-------|--------|
+| VOC Analysis | 8.5 | 8.0 | ✓ Pass |
+| Discovery PM | 8.2 | 7.8 | ✓ Pass |
+| Feature PM | 7.8 | 8.2 | ✓ Pass |
 | Rollout PM | Skipped | Skipped | N/A |
 
-**Package Confidence**: 0.82 (weighted average)
-**Package Relevance**: 8.1 (weighted average)
+**Package Translation**: 8.2 (weighted average)
+**Package Value**: 8.0 (weighted average)
 **Overall Status**: ✓ Ready for stakeholder review
 
 ### Recommended Review Focus
-Based on agent flagged areas:
-1. Discovery PM Section 3 (confidence: 0.85) - Validate user segments
-2. VOC Theme 5 (confidence: 0.70) - May be under-reported
-3. Feature PM Epic 2 (confidence: 0.75) - Dependencies unclear
+Based on improvement recommendations:
+1. Discovery PM Translation - Add missing acceptance criteria
+2. Feature PM Value - Validate prioritization against customer needs
 ```
 
 ### Score Validation in Completion Report
@@ -617,36 +615,36 @@ Include score summary in every completion report:
 ```markdown
 ### Agent Scores
 
-| Agent | Confidence | Relevance | Audit Log |
-|-------|------------|-----------|-----------|
-| VOC Analysis | 0.85 | 8.5 | AUDIT_VOC_20251120.json |
-| Discovery PM | 0.82 | 8.2 | AUDIT_ADX-199_20251120.json |
-| Feature PM | 0.78 | 7.8 | AUDIT_EPICS_ADX-199_20251120.json |
+| Agent | Translation | Value | Audit Log |
+|-------|-------------|-------|-----------|
+| VOC Analysis | 8.5 | 8.0 | AUDIT_VOC_20251120.json |
+| Discovery PM | 8.2 | 7.8 | AUDIT_ADX-199_20251120.json |
+| Feature PM | 7.8 | 8.2 | AUDIT_EPICS_ADX-199_20251120.json |
 
-**Overall Package Quality**: 8.2/10.0
+**Overall Package Quality**: 8.1/10.0
 
 ### Top Score Improvement Opportunities
-1. Add user research to Discovery PM Section 3 (+0.5 confidence)
-2. Include historical data for VOC trends (+0.3 confidence)
+1. Add missing requirements to Discovery PM (+1.0 translation)
+2. Include VOC trends for better value alignment (+0.5 value)
 
 ### Review Priority
-1. Discovery PM Sections 3, 4 - Product Manager (20 min)
-2. VOC Theme severity ratings - Product Manager (10 min)
+1. Discovery PM translation accuracy - Product Manager (15 min)
+2. Feature PM value alignment - Product Manager (10 min)
 ```
 
 ### Score-Based Workflow Decisions
 
-**High Scores (Confidence ≥0.85, Relevance ≥8.0):**
+**High Scores (Translation ≥8.0, Value ≥8.0):**
 - Auto-proceed to next step
 - Minimal review recommended
 - Ready for stakeholder distribution
 
-**Moderate Scores (Confidence 0.70-0.84, Relevance 6.0-7.9):**
+**Moderate Scores (Translation 7.0-7.9, Value 7.0-7.9):**
 - Proceed with caution
 - Flag areas for human review
 - Consider implementing improvement recommendations
 
-**Low Scores (Below minimums):**
+**Low Scores (Below 7.0):**
 - BLOCK workflow
 - Require user decision
 - Present improvement options

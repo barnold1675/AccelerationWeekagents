@@ -204,216 +204,178 @@ Your outputs feed into other PM agents:
 
 For every VOC analysis you generate, you MUST:
 
-1. **Score your overall confidence** (0.0-1.0) and **feedback coverage** (0.00-10.00)
-2. **Score each theme extraction** with detailed reasoning
-3. **Generate a separate audit log file**: `AUDIT_VOC_{analysis_id}_{timestamp}.json`
-4. **Include score improvement recommendations**
-5. **Append a "Self-Assessment Summary" section** at the end of the output
+1. **Score Translation** (0.00-10.00) and **Value** (0.00-10.00)
+2. **Generate audit log file**: `docs/AUDIT_VOC_{analysis_id}_{timestamp}.json`
+3. **Generate Run_Scores files**: `Run_Scores/{analysis_id}-voc-self-assessment.json` and `.md`
 
-### Feedback Coverage Scoring Rubric (0.00-10.00)
+**NOTE:** Self-assessment data goes ONLY to Run_Scores folder, NOT in the output itself.
 
-Evaluate how well your analysis captures the source feedback:
+---
+
+### Score 1: Translation Score (0.00-10.00)
+
+**"How well do the themes represent the actual customer feedback?"**
+
+Measures how accurately the analysis captures and categorizes the source feedback.
 
 | Score Range | Rating | Description |
 |-------------|--------|-------------|
-| 10.00 | Perfect | All feedback themes captured, accurate quotes, proper attribution |
-| 8.00-9.99 | Excellent | Excellent analysis, minor themes missed |
-| 6.00-7.99 | Good | Good analysis, some feedback not categorized |
-| 4.00-5.99 | Adequate | Adequate but missing important themes |
-| 2.00-3.99 | Poor | Poor analysis, major themes missed |
-| 0.00-1.99 | Minimal | Minimal alignment with source feedback |
+| 9.0-10.0 | Perfect | Perfect translation, all feedback captured, accurate quotes, proper attribution |
+| 7.0-8.9 | Excellent | Excellent translation, minor themes missed |
+| 5.0-6.9 | Good | Good translation, some feedback uncategorized |
+| 3.0-4.9 | Adequate | Adequate translation, major themes missed |
+| 1.0-2.9 | Poor | Poor translation, significant misrepresentation |
+| 0.0-0.9 | Minimal | Minimal translation accuracy |
 
-### Confidence Scoring Factors (0.0-1.0)
-
-Score each output based on:
-
-- **Data quality**: Is source feedback clear and sufficient?
-- **Theme distinctness**: Are themes well-differentiated?
-- **Quote accuracy**: Are quotes verbatim with proper attribution?
-- **Severity scoring**: Is severity justified by data?
-- **Trend accuracy**: Are trends backed by historical comparison?
-- **Coverage completeness**: Is all feedback accounted for?
-
-### Output Format - Self-Assessment Summary
-
-At the end of every VOC analysis, append:
-
-```markdown
 ---
 
-## VOC Analysis Self-Assessment
+### Score 2: Value Score (0.00-10.00)
 
-**Overall Confidence**: [X.XX] / 1.0
-**Feedback Coverage**: [X.XX] / 10.0
-**Analysis Completion Time**: [X] minutes
+**"How actionable are the insights for solving customer problems?"**
 
-### Theme Extraction Confidence
+Measures how effectively the analysis enables product decisions that solve customer problems.
 
-| Theme | Mentions | Confidence | Reasoning |
-|-------|----------|------------|-----------|
-| [Theme 1] | [count] | [0.0-1.0] | [Why this confidence] |
-| [Theme 2] | [count] | [0.0-1.0] | [Why this confidence] |
+| Score Range | Rating | Description |
+|-------------|--------|-------------|
+| 9.0-10.0 | Exceptional | Exceptional value, insights directly actionable for PRD creation |
+| 7.0-8.9 | High | High value, clear problem statements and evidence |
+| 5.0-6.9 | Moderate | Moderate value, some insights lack actionability |
+| 3.0-4.9 | Low | Low value, insights too vague for product decisions |
+| 1.0-2.9 | Minimal | Minimal value, analysis disconnected from product needs |
+| 0.0-0.9 | None | No clear actionable value |
 
-### Data Quality Assessment
+---
 
-| Metric | Value | Score | Notes |
-|--------|-------|-------|-------|
-| Documents Analyzed | [count] | [0.0-1.0] | [Sufficiency assessment] |
-| Quote Attribution | [%] | [0.0-1.0] | [Attribution completeness] |
-| Date Range Coverage | [days] | [0.0-1.0] | [Temporal coverage] |
-| Sentiment Accuracy | [%] | [0.0-1.0] | [Sentiment calibration] |
+### Run Scores File Generation (REQUIRED)
 
-### Severity Scoring Confidence
+Generate BOTH JSON and Markdown files to `Run_Scores/`:
+- JSON: `{analysis_id}-voc-self-assessment.json`
+- Markdown: `{analysis_id}-voc-self-assessment.md`
 
-| Theme | Severity | Confidence | Justification |
-|-------|----------|------------|---------------|
-| [Theme 1] | [Critical/High/Medium/Low] | [0.0-1.0] | [Why this severity] |
-| [Theme 2] | [Critical/High/Medium/Low] | [0.0-1.0] | [Why this severity] |
+#### Markdown Format
 
-### Trend Analysis Confidence
+```markdown
+# {analysis_id} VOC Analysis Self-Assessment
 
-| Trend Claim | Confidence | Data Points | Validation Needed |
-|-------------|------------|-------------|-------------------|
-| [Trend 1] | [0.0-1.0] | [Historical comparison used] | [How to validate] |
-| [Trend 2] | [0.0-1.0] | [Historical comparison used] | [How to validate] |
+## Overview
 
-### Potential Gaps
+| Field | Value |
+|-------|-------|
+| **Analysis ID** | {analysis_id} |
+| **Output** | voc-analysis-{analysis_id}.md |
+| **Agent** | voc-analysis-agent |
+| **Timestamp** | {ISO-8601} |
 
-| Gap | Impact | Recommendation |
-|-----|--------|----------------|
-| [Uncategorized feedback %] | [Impact] | [How to address] |
-| [Missing sentiment data] | [Impact] | [How to address] |
+## Scores
 
-### Areas Flagged for Human Review
+| Metric | Score | Status |
+|--------|-------|--------|
+| **Translation** | {0.0-10.0} | {PASS/FAIL} |
+| **Value** | {0.0-10.0} | {PASS/FAIL} |
 
-1. **[Theme/Quote]** - [Why review needed]
-2. **[Severity rating]** - [Why review needed]
+**Thresholds:** Translation ≥ 7.0, Value ≥ 7.0
 
-### Decisions Made
+## Score Rationale
 
-| Decision | Confidence | Reasoning | Validation Needed |
-|----------|------------|-----------|-------------------|
-| [Theme grouping] | [0.0-1.0] | [Why] | [What to validate] |
-| [Severity assignment] | [0.0-1.0] | [Why] | [What to validate] |
+### Translation Score: {X.X}/10
+{Detailed explanation of how well themes represent actual customer feedback}
 
-### Assumptions Made
+### Value Score: {X.X}/10
+{Detailed explanation of how actionable insights are for solving customer problems}
 
-| Assumption | Confidence | Risk if Wrong | Validation Needed |
-|------------|------------|---------------|-------------------|
-| [Sentiment interpretation] | [0.0-1.0] | [Impact] | [How to validate] |
-| [Theme boundaries] | [0.0-1.0] | [Impact] | [How to validate] |
+## Improvement Recommendations
 
-### Score Improvement Recommendations
-
-To improve feedback coverage from [X.X] → [Y.Y]:
-
-| Current | Target | Area | Recommendation | Implementation | Est. Impact |
-|---------|--------|------|----------------|----------------|-------------|
-| [X.X] | [Y.Y] | [Area] | [Recommendation] | [How to implement] | [+X.X points] |
-
-**Full audit log**: See `AUDIT_VOC_{analysis_id}_{timestamp}.json`
+| Score | Current | Target | Action | Impact |
+|-------|---------|--------|--------|--------|
+| Translation | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
+| Value | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
 ```
 
-### Audit Log File Generation
-
-Generate a JSON audit log file: `AUDIT_VOC_{analysis_id}_{timestamp}.json`
+#### JSON Format
 
 ```json
 {
-  "agent_execution_log": {
-    "metadata": {
-      "agent_name": "voc-analysis-agent",
-      "agent_version": "1.0.0",
-      "execution_id": "unique-uuid",
-      "timestamp": "ISO-8601 format",
-      "source_input": "Confluence:VOC-folder",
-      "output_artifact": "voc-analysis-report.md"
+  "metadata": {
+    "analysis_id": "{analysis_id}",
+    "output_file": "voc-analysis-{analysis_id}.md",
+    "agent": "voc-analysis-agent",
+    "timestamp": "ISO-8601"
+  },
+  "scores": {
+    "translation": {
+      "score": 0.0-10.0,
+      "status": "PASS/FAIL",
+      "rationale": "How well themes represent actual customer feedback"
     },
-
-    "overall_assessment": {
-      "overall_confidence_score": 0.0-1.0,
-      "feedback_coverage_score": 0.00-10.00,
-      "estimated_human_review_time_minutes": number,
-      "generation_time_minutes": number,
-      "reasoning": "Overall assessment"
-    },
-
-    "theme_assessments": [
-      {
-        "theme_name": "Theme name",
-        "occurrences": number,
-        "percentage_of_feedback": number,
-        "confidence_score": 0.0-1.0,
-        "severity": "Critical/High/Medium/Low",
-        "severity_justification": "Why this severity",
-        "quotes_extracted": number,
-        "quote_attribution_complete": boolean,
-        "human_review_needed": boolean,
-        "review_focus": "What to review"
-      }
-    ],
-
-    "data_quality_assessment": {
-      "documents_analyzed": number,
-      "documents_with_issues": number,
-      "quote_attribution_rate": number,
-      "date_range_coverage_days": number,
-      "sentiment_data_availability": number,
-      "overall_data_quality_score": 0.0-1.0
-    },
-
-    "trend_analysis": [
-      {
-        "trend_claim": "Description",
-        "historical_data_points": number,
-        "confidence_score": 0.0-1.0,
-        "validation_needed": "How to validate"
-      }
-    ],
-
-    "coverage_gaps": [
-      {
-        "gap_type": "Uncategorized feedback",
-        "percentage": number,
-        "impact": "Impact description",
-        "recommendation": "How to address"
-      }
-    ],
-
-    "assumptions_made": [
-      {
-        "assumption": "Description",
-        "confidence_score": 0.0-1.0,
-        "reasoning": "Why assumed",
-        "risk_if_wrong": "Impact",
-        "validation_needed": "How to validate"
-      }
-    ],
-
-    "score_improvement_recommendations": [
-      {
-        "current_score": number,
-        "target_score": number,
-        "area": "Area to improve",
-        "recommendation": "What would help",
-        "implementation": "How to implement",
-        "estimated_impact": "+X.X points"
-      }
-    ]
-  }
+    "value": {
+      "score": 0.0-10.0,
+      "status": "PASS/FAIL",
+      "rationale": "How actionable insights are for solving customer problems"
+    }
+  },
+  "thresholds": {
+    "min_translation": 7.0,
+    "min_value": 7.0
+  },
+  "recommendations": [
+    {
+      "score_type": "translation|value",
+      "current": 0.0,
+      "target": 0.0,
+      "action": "What to do",
+      "impact": "Expected improvement"
+    }
+  ]
 }
 ```
 
-### Quality Checks to Perform
+---
 
-Before finalizing, verify and include in audit log:
+### Audit Log File Generation
 
-- [ ] Every theme has at least 3 supporting quotes
-- [ ] Every quote has source URL and date
-- [ ] Every severity score is justified
-- [ ] Every trend claim includes comparison data
-- [ ] All Confluence URLs are valid
-- [ ] Quote lengths within 200 character limit
-- [ ] Sentiment scores align with defined criteria
-- [ ] All feedback documents accounted for
-- [ ] No uncategorized feedback exceeds 10%
+Generate JSON audit log to `docs/AUDIT_VOC_{analysis_id}_{timestamp}.json`:
+
+```json
+{
+  "metadata": {
+    "agent": "voc-analysis-agent",
+    "timestamp": "ISO-8601",
+    "source": "Confluence:VOC-folder",
+    "output": "voc-analysis-{analysis_id}.md"
+  },
+  "scores": {
+    "translation": 0.0-10.0,
+    "value": 0.0-10.0
+  },
+  "translation_assessment": {
+    "feedback_captured": "Percentage of feedback categorized",
+    "quote_accuracy": "Verbatim accuracy and attribution",
+    "theme_distinctness": "How well-differentiated themes are"
+  },
+  "value_assessment": {
+    "actionability": "How actionable insights are for PRD creation",
+    "problem_clarity": "How clearly customer problems are defined",
+    "evidence_strength": "Strength of supporting quotes and data"
+  },
+  "recommendations": [
+    {
+      "score_type": "translation|value",
+      "action": "What would improve the score",
+      "impact": "Expected point improvement"
+    }
+  ]
+}
+```
+
+---
+
+### Quality Checks
+
+Before finalizing, verify:
+
+- [ ] All feedback categorized into themes (Translation)
+- [ ] Quotes are verbatim with attribution (Translation)
+- [ ] Problem statements are PRD-ready (Value)
+- [ ] Insights are specific and actionable (Value)
+- [ ] Every theme has at least 3 quotes
+- [ ] Severity scores justified by data

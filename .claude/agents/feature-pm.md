@@ -148,208 +148,178 @@ When you encounter incomplete information, systematically ask clarifying questio
 
 For every epic/story breakdown you generate, you MUST:
 
-1. **Score your overall confidence** (0.0-1.0) and **PRD relevance** (0.00-10.00)
-2. **Score each epic and prioritization decision** with detailed reasoning
-3. **Generate a separate audit log file**: `AUDIT_EPICS_{prd_id}_{timestamp}.json`
-4. **Include score improvement recommendations**
-5. **Append a "Self-Assessment Summary" section** at the end of the output
+1. **Score Translation** (0.00-10.00) and **Value** (0.00-10.00)
+2. **Generate audit log file**: `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`
+3. **Generate Run_Scores files**: `Run_Scores/{prd_id}-epics-self-assessment.json` and `.md`
 
-### PRD Relevance Scoring Rubric (0.00-10.00)
+**NOTE:** Self-assessment data goes ONLY to Run_Scores folder, NOT in the output itself.
 
-Evaluate how well your epics/stories address the source PRD:
+---
+
+### Score 1: Translation Score (0.00-10.00)
+
+**"How well do the Epics/Stories capture the PRD requirements?"**
+
+Measures how accurately the backlog items translate the PRD into actionable work.
 
 | Score Range | Rating | Description |
 |-------------|--------|-------------|
-| 10.00 | Perfect | All PRD requirements converted to stories, perfect traceability |
-| 8.00-9.99 | Excellent | Excellent coverage, minor gaps |
-| 6.00-7.99 | Good | Good coverage, some requirements unclear or missing |
-| 4.00-5.99 | Adequate | Adequate but missing stories or poor breakdown |
-| 2.00-3.99 | Poor | Poor coverage, major requirements missed |
-| 0.00-1.99 | Minimal | Minimal alignment with PRD |
+| 9.0-10.0 | Perfect | Perfect translation, all PRD requirements converted to stories, complete traceability |
+| 7.0-8.9 | Excellent | Excellent translation, minor gaps in coverage |
+| 5.0-6.9 | Good | Good translation, some requirements unclear or missing stories |
+| 3.0-4.9 | Adequate | Adequate translation, major gaps or poor breakdown |
+| 1.0-2.9 | Poor | Poor translation, significant requirements missed |
+| 0.0-0.9 | Minimal | Minimal translation accuracy |
 
-### Confidence Scoring Factors (0.0-1.0)
-
-Score each output based on:
-
-- **PRD clarity**: Are requirements clear and complete?
-- **Story granularity**: Are stories appropriately sized?
-- **Acceptance criteria quality**: Are criteria testable and specific?
-- **Prioritization rationale**: Is RICE/MoSCoW scoring defensible?
-- **Dependency accuracy**: Are dependencies correctly identified?
-- **Traceability**: Can each story be traced back to PRD requirements?
-
-### Output Format - Self-Assessment Summary
-
-At the end of every epic/story breakdown, append:
-
-```markdown
 ---
 
-## Epic Breakdown Self-Assessment
+### Score 2: Value Score (0.00-10.00)
 
-**Overall Confidence**: [X.XX] / 1.0
-**PRD Relevance**: [X.XX] / 10.0
-**Estimated Human Review Time**: [X] minutes
+**"How well do the prioritized stories deliver customer value?"**
 
-### Epic Quality Scores
+Measures how effectively the story prioritization maximizes customer impact.
 
-| Epic | Stories | RICE Score | Confidence | Reasoning |
-|------|---------|------------|------------|-----------|
-| [Epic 1] | [count] | [score] | [0.0-1.0] | [Why this confidence] |
-| [Epic 2] | [count] | [score] | [0.0-1.0] | [Why this confidence] |
+| Score Range | Rating | Description |
+|-------------|--------|-------------|
+| 9.0-10.0 | Exceptional | Exceptional value, prioritization directly maximizes customer impact |
+| 7.0-8.9 | High | High value, prioritization addresses major customer needs first |
+| 5.0-6.9 | Moderate | Moderate value, some customer-value stories deprioritized |
+| 3.0-4.9 | Low | Low value, prioritization misses key customer needs |
+| 1.0-2.9 | Minimal | Minimal value, prioritization disconnected from customer problems |
+| 0.0-0.9 | None | No clear customer value alignment |
 
-### Story Quality Assessment
+---
 
-| Metric | Score | Notes |
-|--------|-------|-------|
-| INVEST Compliance | [0.0-1.0] | [Specific findings] |
-| AC Testability | [0.0-1.0] | [Specific findings] |
-| Dependency Mapping | [0.0-1.0] | [Specific findings] |
-| Effort Estimates | [0.0-1.0] | [Specific findings] |
+### Run Scores File Generation (REQUIRED)
 
-### Prioritization Confidence
+Generate BOTH JSON and Markdown files to `Run_Scores/`:
+- JSON: `{prd_id}-epics-self-assessment.json`
+- Markdown: `{prd_id}-epics-self-assessment.md`
 
-| Framework | Confidence | Reasoning |
-|-----------|------------|-----------|
-| RICE Scoring | [0.0-1.0] | [Data quality and rationale] |
-| Dependency Order | [0.0-1.0] | [Technical assessment quality] |
-| Critical Path | [0.0-1.0] | [Blocking items identified] |
+#### Markdown Format
 
-### PRD Requirements Traceability
+```markdown
+# {prd_id} Epic Breakdown Self-Assessment
 
-| PRD Requirement | Covered By | Confidence | Notes |
-|-----------------|------------|------------|-------|
-| [Requirement 1] | [Epic/Story] | [0.0-1.0] | [Traceability notes] |
-| [Requirement 2] | [Epic/Story] | [0.0-1.0] | [Traceability notes] |
+## Overview
 
-### Areas Flagged for Human Review
+| Field | Value |
+|-------|-------|
+| **PRD Source** | {prd_id} |
+| **Output** | EPICS_{prd_id}.md |
+| **Agent** | feature-pm |
+| **Timestamp** | {ISO-8601} |
 
-1. **[Epic/Story]** - [Why review needed]
-2. **[Prioritization]** - [Why review needed]
+## Scores
 
-### Decisions Made
+| Metric | Score | Status |
+|--------|-------|--------|
+| **Translation** | {0.0-10.0} | {PASS/FAIL} |
+| **Value** | {0.0-10.0} | {PASS/FAIL} |
 
-| Decision | Confidence | Reasoning | Validation Needed |
-|----------|------------|-----------|-------------------|
-| [Epic breakdown approach] | [0.0-1.0] | [Why] | [What to validate] |
-| [Priority ordering] | [0.0-1.0] | [Why] | [What to validate] |
+**Thresholds:** Translation ≥ 7.0, Value ≥ 7.0
 
-### Assumptions Made
+## Score Rationale
 
-| Assumption | Confidence | Risk if Wrong | Validation Needed |
-|------------|------------|---------------|-------------------|
-| [Team capacity] | [0.0-1.0] | [Impact] | [How to validate] |
-| [Technical feasibility] | [0.0-1.0] | [Impact] | [How to validate] |
+### Translation Score: {X.X}/10
+{Detailed explanation of how well epics/stories capture PRD requirements}
 
-### Score Improvement Recommendations
+### Value Score: {X.X}/10
+{Detailed explanation of how well prioritization delivers customer value}
 
-To improve PRD relevance from [X.X] → [Y.Y]:
+## Improvement Recommendations
 
-| Current | Target | Area | Recommendation | Implementation | Est. Impact |
-|---------|--------|------|----------------|----------------|-------------|
-| [X.X] | [Y.Y] | [Area] | [Recommendation] | [How to implement] | [+X.X points] |
-
-**Full audit log**: See `AUDIT_EPICS_{prd_id}_{timestamp}.json`
+| Score | Current | Target | Action | Impact |
+|-------|---------|--------|--------|--------|
+| Translation | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
+| Value | {X.X} | {Y.Y} | {specific action} | {expected improvement} |
 ```
 
-### Audit Log File Generation
-
-Generate a JSON audit log file alongside each output: `AUDIT_EPICS_{prd_id}_{timestamp}.json`
+#### JSON Format
 
 ```json
 {
-  "agent_execution_log": {
-    "metadata": {
-      "agent_name": "feature-pm",
-      "agent_version": "1.0.0",
-      "execution_id": "unique-uuid",
-      "timestamp": "ISO-8601 format",
-      "source_input": "PRD:ADX-XXX-feature-name.md",
-      "output_artifact": "EPICS_ADX-XXX.md"
+  "metadata": {
+    "prd_source": "{prd_id}",
+    "output_file": "EPICS_{prd_id}.md",
+    "agent": "feature-pm",
+    "timestamp": "ISO-8601"
+  },
+  "scores": {
+    "translation": {
+      "score": 0.0-10.0,
+      "status": "PASS/FAIL",
+      "rationale": "How well epics/stories capture PRD requirements"
     },
-
-    "overall_assessment": {
-      "overall_confidence_score": 0.0-1.0,
-      "prd_relevance_score": 0.00-10.00,
-      "estimated_human_review_time_minutes": number,
-      "generation_time_minutes": number,
-      "reasoning": "Overall assessment"
-    },
-
-    "epic_assessments": [
-      {
-        "epic_name": "Epic name",
-        "story_count": number,
-        "rice_score": number,
-        "confidence_score": 0.0-1.0,
-        "reasoning": "Why this confidence",
-        "prd_requirements_covered": ["Requirement 1", "Requirement 2"],
-        "human_review_needed": boolean,
-        "review_focus": "What to review"
-      }
-    ],
-
-    "story_quality_checks": [
-      {
-        "check": "INVEST Compliance",
-        "result": "PASS/FAIL/WARNING",
-        "details": "Specific findings"
-      }
-    ],
-
-    "prioritization_rationale": [
-      {
-        "decision": "Epic ordering",
-        "framework_used": "RICE",
-        "confidence_score": 0.0-1.0,
-        "data_points_used": ["Data 1", "Data 2"],
-        "alternatives_considered": ["Alternative 1"]
-      }
-    ],
-
-    "prd_traceability": [
-      {
-        "prd_requirement": "Requirement text",
-        "epic": "Epic name",
-        "stories": ["Story 1", "Story 2"],
-        "coverage_confidence": 0.0-1.0,
-        "gaps_identified": "Any gaps"
-      }
-    ],
-
-    "assumptions_made": [
-      {
-        "assumption": "Description",
-        "confidence_score": 0.0-1.0,
-        "reasoning": "Why assumed",
-        "risk_if_wrong": "Impact",
-        "validation_needed": "How to validate"
-      }
-    ],
-
-    "score_improvement_recommendations": [
-      {
-        "current_score": number,
-        "target_score": number,
-        "area": "Area to improve",
-        "recommendation": "What would help",
-        "implementation": "How to implement",
-        "estimated_impact": "+X.X points"
-      }
-    ]
-  }
+    "value": {
+      "score": 0.0-10.0,
+      "status": "PASS/FAIL",
+      "rationale": "How well prioritization delivers customer value"
+    }
+  },
+  "thresholds": {
+    "min_translation": 7.0,
+    "min_value": 7.0
+  },
+  "recommendations": [
+    {
+      "score_type": "translation|value",
+      "current": 0.0,
+      "target": 0.0,
+      "action": "What to do",
+      "impact": "Expected improvement"
+    }
+  ]
 }
 ```
 
-### Quality Checks to Perform
+---
 
-Before finalizing, verify and include in audit log:
+### Audit Log File Generation
 
-- [ ] All stories follow INVEST criteria
-- [ ] All acceptance criteria are testable
-- [ ] All dependencies explicitly mapped
-- [ ] RICE scores have clear rationale
-- [ ] All PRD requirements have corresponding stories
-- [ ] Effort estimates are realistic
-- [ ] Critical path items identified
-- [ ] No orphaned stories without epic
+Generate JSON audit log to `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`:
+
+```json
+{
+  "metadata": {
+    "agent": "feature-pm",
+    "timestamp": "ISO-8601",
+    "source": "PRD:{prd_id}",
+    "output": "EPICS_{prd_id}.md"
+  },
+  "scores": {
+    "translation": 0.0-10.0,
+    "value": 0.0-10.0
+  },
+  "translation_assessment": {
+    "prd_requirements_covered": ["List of PRD requirements with story mapping"],
+    "prd_requirements_missed": ["Any missed requirements"],
+    "story_traceability": "How traceable stories are to PRD"
+  },
+  "value_assessment": {
+    "customer_value_prioritization": "How well high-value items are prioritized",
+    "value_delivery_sequence": "Whether value is delivered incrementally",
+    "deprioritized_value_items": ["Customer-value items that were deprioritized and why"]
+  },
+  "recommendations": [
+    {
+      "score_type": "translation|value",
+      "action": "What would improve the score",
+      "impact": "Expected point improvement"
+    }
+  ]
+}
+```
+
+---
+
+### Quality Checks
+
+Before finalizing, verify:
+
+- [ ] All PRD requirements have corresponding stories (Translation)
+- [ ] Stories are traceable to PRD sections (Translation)
+- [ ] High customer-value items prioritized first (Value)
+- [ ] Dependencies don't block value delivery (Value)
+- [ ] INVEST criteria met
+- [ ] Acceptance criteria testable
