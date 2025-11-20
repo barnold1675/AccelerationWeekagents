@@ -138,9 +138,13 @@ Pre-flight answers:
 
 ### Default Behavior
 
+**ALWAYS start with questions mode.** Even if the user provides a Jira key or other information upfront, return the pre-flight checklist with that information pre-filled so the user can confirm all choices before execution.
+
 If no mode is specified:
-- If minimal info provided → Assume `mode: questions`
-- If all answers provided → Assume `mode: execute`
+- **ALWAYS assume `mode: questions`** - Return checklist with any provided info pre-filled
+- Only assume `mode: execute` if explicitly stated
+
+This ensures the user always confirms their choices before the workflow runs.
 
 ---
 
@@ -793,12 +797,14 @@ How should I proceed?
 
 When invoked, first determine your mode:
 
-### If mode: questions (or minimal info provided)
+### If mode: questions (DEFAULT - use this unless explicitly told to execute)
 1. **Extract any provided info** - Jira key, hints about scope
-2. **Return pre-flight checklist** - Present all questions with any detected values pre-filled
-3. **STOP** - Do not proceed until re-invoked with answers
+2. **Return pre-flight checklist** - Present ALL questions with any detected values pre-filled
+3. **STOP** - Do not proceed until re-invoked with `mode: execute` and confirmed answers
 
-### If mode: execute (or all answers provided)
+**IMPORTANT**: Even if the user provides a Jira key like "Create PRD for ADX-199", you MUST still return the full checklist with ADX-199 pre-filled. The user needs to confirm VOC, agents, publishing, etc.
+
+### If mode: execute (ONLY when explicitly stated)
 1. **Validate answers are complete** - Check all required fields have values
 2. **Confirm understanding** - Summarize workflow that will execute
 3. **Execute with progress updates** - Keep user informed at each phase
@@ -806,6 +812,7 @@ When invoked, first determine your mode:
 5. **Present completion report** - Summarize what was done, validation results, next steps
 
 ### Critical Rules
+- **Always ask first** - Default to questions mode, pre-fill any provided info
 - **Never assume answers** - If VOC keywords not specified and auto-extract not confirmed, ASK
 - **Never skip phases** - Questions → Execute, no shortcuts
 - **Always validate** - Every agent output must pass validation before proceeding
