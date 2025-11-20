@@ -1,0 +1,130 @@
+# Product Brief Template
+
+## 1. Overview
+
+| Field | Details |
+| --- | --- |
+| **Feature/Project Name** |  |
+| **Author** |  |
+| **Date Created** |  |
+| **Last Updated** |  |
+| **Status** | (e.g., Draft, In Review, Approved) |
+| **Stakeholders** | (Product, Design, Engineering, QA, Marketing, etc.) |
+
+---
+
+
+## 2. Background / Context
+
+> Briefly explain _why_ this project exists. What's the business/user problem?
+> Link to any research, feedback, or discovery documents.
+
+---
+
+## 3. Target Users
+
+### Primary Segments
+
+> _Define who you're designing for:_
+
+* Segment A:
+* Segment B:
+* Segment C:
+
+### User Behavior / Intent
+
+> _Describe how these users currently behave and what their intent is:_
+
+---
+
+## 4. Objective / Goals
+
+_What are we trying to achieve?_
+
+* 🎯 Business Goals:
+* 📈 Success Metrics:
+
+---
+
+## 5. Scope
+
+### ✅ In Scope
+
+* Feature/Component A
+* Feature/Component B
+
+### ❌ Out of Scope
+
+> _To be completed by Agent_
+
+* [TBD - Pending Agent input]
+* [TBD - Pending Agent input]
+
+---
+
+## 6. Feature Documentation
+
+> _To be completed by Agent_
+
+| Item | Link or Description |
+| --- | --- |
+| **Wireframes** | [TBD - Pending Agent input] |
+| **Mockups** | [TBD - Pending Agent input] |
+| **UX Notes** | [TBD - Pending Agent input] |
+
+---
+
+## 7. Success Metrics / KPIs
+
+> Define how success will be measured post-launch:
+
+* 🧭 Adoption Rate:
+* ✅ Task Completion Rate:
+* 📊 Engagement / Conversion:
+* 📣 Feedback or CSAT/NPS:
+
+---
+
+## 8. Analytics & Tracking
+
+> _To be completed by Agent_
+
+| Event Name | Description | Properties |
+| --- | --- | --- |
+| [TBD - Pending Agent input] | [TBD - Pending Agent input] | [TBD - Pending Agent input] |
+
+---
+
+## 9. Risks & Considerations
+
+| Risk / Assumption | Impact | Mitigation |
+| --- | --- | --- |
+| \[e.g. Confusing UI\] | Medium | Add tooltip |
+| \[e.g. Backend dependency\] | High | Work with XYZ team |
+
+---
+
+## 10. Launch Plan
+
+* Feature flag: Yes/No
+* Beta / pilot group?
+* Internal training needed?
+* Support docs / Help Center articles
+* Comms / Marketing Plan
+
+---
+
+## 11. Post-Launch Plan
+
+* 📈 Monitor key metrics
+* 🔍 Review analytics after 1–2 weeks
+* 🛠 Plan for v1.1 or follow-up fixes
+* Comms / Marketing Plan
+
+---
+
+## 12. Open Questions
+
+|  | **Question** | **Notes** |
+| --- | --- | --- |
+|  | Open questions go here. |  |

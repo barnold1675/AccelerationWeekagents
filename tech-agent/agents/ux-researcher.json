@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.0.1",
+  "agent_id": "ux-researcher",
+  "name": "UX Researcher",
+  "enabled": true,
+  "persona_source": "../context/personas/neat-design-system/ux-researcher-persona.json",
+  "persona_format": "json",
+  "description": "Conduct user research to understand customer pain points, discover opportunities, and validate design solutions through interviews and usability testing",
+  "category": "neat-design-system",
+  "priority": 1,
+  "settings": {
+    "auto_spawn": false,
+    "max_concurrent_instances": 1,
+    "default_model": "anthropic/claude-sonnet-4.5",
+    "temperature": 0.3
+  },
+  "capabilities": [
+    "user-interviews",
+    "usability-testing",
+    "research-synthesis",
+    "test-script-creation",
+    "prototype-testing",
+    "insight-generation",
+    "stakeholder-presentation",
+    "user-recruitment"
+  ],
+  "metadata": {
+    "created_at": "2025-01-27",
+    "version": "0.0.1",
+    "maintainer": "Neat Design System Team"
+  }
+}
+

@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.0.1",
+  "agent_id": "martech-hops-developer",
+  "name": "Martech HOPS Developer",
+  "enabled": true,
+  "persona_source": "../context/personas/martech/martech-hops-developer/persona.json",
+  "persona_format": "json",
+  "description": "AWS Lambda developer with expertise in creating and managing custom APIs that broker requests to Adobe Experience Platform APIs for personalization, experimentation, and notification content",
+  "category": "martech",
+  "priority": 1,
+  "settings": {
+    "auto_spawn": false,
+    "max_concurrent_instances": 1,
+    "default_model": "anthropic/claude-sonnet-4.5",
+    "temperature": 0.2
+  },
+  "capabilities": [
+    "adobe-experience-platform",
+    "adobe-journey-optimizer",
+    "adobe-target",
+    "experimentation-frameworks",
+    "json-contract-design",
+    "system-design",
+    "api-design",
+    "HOPS"
+  ],
+  "metadata": {
+    "created_at": "2025-01-27",
+    "version": "0.0.1",
+    "maintainer": "Martech Team"
+  }
+}
+

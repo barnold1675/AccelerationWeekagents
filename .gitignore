@@ -1,0 +1,15 @@
+# OS generated files
+.DS_Store
+__MACOSX/
+*.swp
+*~
+
+# Local settings
+.claude/settings.local.json
+
+# Node modules (if you want to track them, remove this line)
+node_modules/
+
+# Environment files
+.env
+.env.local

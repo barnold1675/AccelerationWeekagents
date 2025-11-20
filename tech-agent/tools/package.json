@@ -1,0 +1,25 @@
+{
+  "name": "technical-requirements-generator",
+  "version": "1.0.0",
+  "description": "Multi-agent technical requirements generator from PRDs",
+  "main": "generate-technical-requirements.js",
+  "scripts": {
+    "generate": "node generate-technical-requirements.js",
+    "test": "node generate-technical-requirements.js examples/../example-prd.md -o test-output.md"
+  },
+  "keywords": [
+    "prd",
+    "technical-requirements",
+    "multi-agent",
+    "documentation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "json5": "^2.2.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+

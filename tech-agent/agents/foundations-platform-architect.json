@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.0.1",
+  "agent_id": "foundations-platform-architect",
+  "name": "Foundations Platform Architect",
+  "enabled": true,
+  "persona_source": "../context/personas/Foundations/FoundationsPlatformArchitect.json5",
+  "persona_format": "json5",
+  "description": "Architectural advisor for the Internal Developer Platform, providing authoritative guidance on monorepo structure, module federation patterns, Nx tooling strategy, and Zephyr-Cloud integration",
+  "category": "foundations",
+  "priority": 1,
+  "settings": {
+    "auto_spawn": false,
+    "max_concurrent_instances": 1,
+    "default_model": "anthropic/claude-sonnet-4.5",
+    "temperature": 0.2
+  },
+  "capabilities": [
+    "monorepo-architecture",
+    "nx-generators",
+    "module-federation",
+    "bff-architecture",
+    "rspack-configuration",
+    "harness-pipelines",
+    "zephyr-deployment"
+  ],
+  "metadata": {
+    "created_at": "2025-01-27",
+    "version": "0.0.10",
+    "maintainer": "SGWS Foundations Team"
+  }
+}
+

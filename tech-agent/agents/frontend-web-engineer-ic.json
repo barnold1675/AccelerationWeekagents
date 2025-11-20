@@ -1,0 +1,31 @@
+{
+  "schema_version": "0.0.1",
+  "agent_id": "frontend-web-engineer-ic",
+  "name": "Frontend Web Engineer IC (Principal)",
+  "enabled": true,
+  "persona_source": "../context/personas/Foundations/FrontendWebEngineerIC.json5",
+  "persona_format": "json5",
+  "description": "Principal-level frontend engineer specializing in JSX/UI architecture, component design patterns, memory-safe implementations, and delivering exceptional user experiences",
+  "category": "foundations",
+  "priority": 1,
+  "settings": {
+    "auto_spawn": false,
+    "max_concurrent_instances": 1,
+    "default_model": "anthropic/claude-sonnet-4.5",
+    "temperature": 0.2
+  },
+  "capabilities": [
+    "component-architecture",
+    "memory-management",
+    "jsx-patterns",
+    "typescript-mastery",
+    "performance-optimization",
+    "accessibility-first"
+  ],
+  "metadata": {
+    "created_at": "2025-01-27",
+    "version": "0.0.10",
+    "maintainer": "SGWS Web Team"
+  }
+}
+

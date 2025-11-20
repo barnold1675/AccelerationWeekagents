@@ -1,0 +1,6 @@
+{
+  "assume risk for major bumps": "Yes, but only for runtime dependencies, not dev-tools pinned by Nx. Keep Nx at ~20.0 as specified.",
+  "major version update": "No, avoid major version updates. Stay on current major versions and only do minor/patch updates. Focus on adding missing dependencies (typescript and nx) to the root workspace.",
+  "add typescript and nx to workspace packages": "Only update the root workspace. Do not add dependencies to individual projects.",
+  "use third party generators": "Only use internal or official Nx generators, scripts, and build tools referenced in our documentation."
+}

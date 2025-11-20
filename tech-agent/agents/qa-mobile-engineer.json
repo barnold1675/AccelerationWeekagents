@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.0.1",
+  "agent_id": "qa-mobile-engineer",
+  "name": "Mobile QA Automation Expert",
+  "enabled": true,
+  "persona_source": "../context/personas/test-engineeering/qa-mobile-engineer.json",
+  "persona_format": "json",
+  "description": "Ensure high-quality, bug-free mobile applications through advanced automation, CI/CD integration, and performance validation across Android and iOS platforms",
+  "category": "test-engineering",
+  "priority": 1,
+  "settings": {
+    "auto_spawn": false,
+    "max_concurrent_instances": 1,
+    "default_model": "anthropic/claude-sonnet-4.5",
+    "temperature": 0.2
+  },
+  "capabilities": [
+    "functional-testing",
+    "regression-testing",
+    "integration-testing",
+    "mobile-automation",
+    "cross-platform",
+    "performance-testing",
+    "ci-cd-integration"
+  ],
+  "metadata": {
+    "created_at": "2025-01-27",
+    "version": "1.0.0",
+    "maintainer": "Mobile QA Excellence Team"
+  }
+}
+

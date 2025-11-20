@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.0.1",
+  "agent_id": "ux-designer",
+  "name": "UX Designer",
+  "enabled": true,
+  "persona_source": "../context/personas/neat-design-system/ux-designer-persona.json",
+  "persona_format": "json",
+  "description": "Create user-centered wireframes and interaction patterns that solve real customer problems while maintaining consistency with established design systems",
+  "category": "neat-design-system",
+  "priority": 1,
+  "settings": {
+    "auto_spawn": false,
+    "max_concurrent_instances": 1,
+    "default_model": "anthropic/claude-sonnet-4.5",
+    "temperature": 0.3
+  },
+  "capabilities": [
+    "wireframing",
+    "prototyping",
+    "user-research",
+    "design-systems",
+    "interaction-design",
+    "usability-testing",
+    "collaboration",
+    "handoff-documentation"
+  ],
+  "metadata": {
+    "created_at": "2025-01-27",
+    "version": "0.0.1",
+    "maintainer": "Neat Design System Team"
+  }
+}
+

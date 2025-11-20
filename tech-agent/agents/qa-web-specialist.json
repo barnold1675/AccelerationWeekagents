@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.0.1",
+  "agent_id": "qa-web-specialist",
+  "name": "Web QA Expert",
+  "enabled": true,
+  "persona_source": "../context/personas/test-engineeering/qa-web-specialist.json",
+  "persona_format": "json",
+  "description": "Ensure high-quality, bug-free web applications through functional, regression, and automation testing with a focus on performance, accessibility, and user experience",
+  "category": "test-engineering",
+  "priority": 1,
+  "settings": {
+    "auto_spawn": false,
+    "max_concurrent_instances": 1,
+    "default_model": "anthropic/claude-sonnet-4.5",
+    "temperature": 0.2
+  },
+  "capabilities": [
+    "functional-testing",
+    "regression-testing",
+    "integration-testing",
+    "automation",
+    "cross-browser",
+    "accessibility-testing",
+    "ci-cd-integration"
+  ],
+  "metadata": {
+    "created_at": "2025-01-27",
+    "version": "0.0.10",
+    "maintainer": "QA Excellence Team"
+  }
+}
+
