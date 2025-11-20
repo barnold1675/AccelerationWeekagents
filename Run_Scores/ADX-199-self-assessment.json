@@ -1,0 +1,138 @@
+{
+  "prd_name": "ADX-199 OOS Recommendation",
+  "issue_key": "ADX-199",
+  "prd_file": "PRDs/ADX-199-oos-recommendation-v2.md",
+  "agent": "discovery-pm",
+  "timestamp": "2025-11-20T12:00:00.000Z",
+  "overall_scores": {
+    "confidence": 0.865,
+    "relevance": 9.0,
+    "status": "PASS",
+    "thresholds": {
+      "min_confidence": 0.70,
+      "min_relevance": 6.0
+    }
+  },
+  "section_scores": {
+    "1_overview": {
+      "name": "Overview",
+      "confidence": 0.95,
+      "relevance": 10,
+      "rationale": "All fields completed accurately based on Jira issue data; standard template section"
+    },
+    "2_background_context": {
+      "name": "Background/Context",
+      "confidence": 0.90,
+      "relevance": 9,
+      "rationale": "Strong problem articulation from issue description; lacks direct customer quotes without VOC analysis"
+    },
+    "3_target_users": {
+      "name": "Target Users",
+      "confidence": 0.85,
+      "relevance": 9,
+      "rationale": "Well-defined segments aligned with stated users (returning users, manufacturers implicitly represented); behavior patterns inferred from B2B context and constraints listed"
+    },
+    "4_objectives_goals": {
+      "name": "Objectives/Goals",
+      "confidence": 0.90,
+      "relevance": 10,
+      "rationale": "Goals directly map to stated problems and success criteria from issue; metrics framework comprehensive for B2B commerce"
+    },
+    "5_in_scope": {
+      "name": "In Scope",
+      "confidence": 0.85,
+      "relevance": 9,
+      "rationale": "Comprehensive feature set addressing all stated problems and goals; some technical implementation details may need engineering validation"
+    },
+    "7_success_metrics": {
+      "name": "Success Metrics/KPIs",
+      "confidence": 0.80,
+      "relevance": 9,
+      "rationale": "Framework covers all goal areas; specific targets left as TBD per instructions; measurement approaches are standard"
+    },
+    "9_risks_considerations": {
+      "name": "Risks & Considerations",
+      "confidence": 0.85,
+      "relevance": 9,
+      "rationale": "Identified risks span technical, business, and user experience dimensions; mitigations are actionable; may not capture all edge cases"
+    },
+    "10_launch_plan": {
+      "name": "Launch Plan",
+      "confidence": 0.80,
+      "relevance": 8,
+      "rationale": "Phased approach is industry standard; timelines are estimates pending engineering input; rollback plan included"
+    },
+    "11_post_launch_plan": {
+      "name": "Post-Launch Plan",
+      "confidence": 0.85,
+      "relevance": 8,
+      "rationale": "Covers stabilization, optimization, and continuous improvement; standard post-launch practices"
+    },
+    "12_open_questions": {
+      "name": "Open Questions",
+      "confidence": 0.90,
+      "relevance": 9,
+      "rationale": "Questions are substantive and span key decision areas; will drive clarity in subsequent planning"
+    }
+  },
+  "sections_completed": [
+    "1. Overview",
+    "2. Background/Context",
+    "3. Target Users",
+    "4. Objectives/Goals",
+    "5. In Scope",
+    "7. Success Metrics/KPIs",
+    "9. Risks & Considerations",
+    "10. Launch Plan",
+    "11. Post-Launch Plan",
+    "12. Open Questions"
+  ],
+  "sections_skipped": [
+    "5. Out of Scope",
+    "6. Feature Documentation",
+    "8. Analytics & Tracking"
+  ],
+  "quality_summary": {
+    "strengths": [
+      "Clear problem-to-solution mapping throughout the document",
+      "B2B-specific considerations woven into user segments, scope, and risks",
+      "Actionable scope definition with specific feature requirements",
+      "Comprehensive risk identification with practical mitigations"
+    ],
+    "areas_for_improvement": [
+      "Would benefit from VOC analysis to validate assumptions about user behavior",
+      "Technical feasibility of some algorithm features needs engineering review",
+      "Launch timeline estimates are approximations pending team capacity assessment",
+      "Some metrics targets require baseline data collection before finalization"
+    ],
+    "dependencies": [
+      "Scoping Agent: Out of scope definition",
+      "Design/UX Agent: Wireframes, mockups, UX notes",
+      "Analytics Agent: Event tracking specifications",
+      "Engineering: Technical feasibility review and timeline validation"
+    ]
+  },
+  "recommendations": [
+    {
+      "area": "Section 3: Target Users",
+      "current_score": 0.85,
+      "target_score": 0.95,
+      "action": "Conduct user interviews to validate segment definitions",
+      "estimated_impact": "+0.10 confidence"
+    },
+    {
+      "area": "Section 7: Success Metrics",
+      "current_score": 0.80,
+      "target_score": 0.90,
+      "action": "Establish baseline metrics from current OOS data",
+      "estimated_impact": "+0.10 confidence"
+    },
+    {
+      "area": "Section 10: Launch Plan",
+      "current_score": 0.80,
+      "target_score": 0.90,
+      "action": "Get engineering capacity estimates for timeline validation",
+      "estimated_impact": "+0.10 confidence"
+    }
+  ]
+}
