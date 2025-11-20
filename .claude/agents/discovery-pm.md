@@ -255,7 +255,69 @@ You MUST generate a JSON audit log file alongside each PRD output. Save to `docs
 
 ### Run Scores File Generation (REQUIRED)
 
-You MUST also generate a self-assessment JSON file for every PRD. Save to `Run_Scores/` with filename: `{ticket_id}-self-assessment.json`
+You MUST generate BOTH a JSON and Markdown self-assessment file for every PRD. Save to `Run_Scores/`:
+- JSON: `{ticket_id}-self-assessment.json`
+- Markdown: `{ticket_id}-self-assessment.md`
+
+Both files contain the same information in different formats for easy reading and programmatic access.
+
+#### Markdown Format (`{ticket_id}-self-assessment.md`)
+
+```markdown
+# {ticket_id} Self-Assessment
+
+## Overview
+
+| Field | Value |
+|-------|-------|
+| **PRD Name** | {ticket_id} {Feature Name} |
+| **Issue Key** | {ticket_id} |
+| **PRD File** | PRDs/{ticket_id}-{slug}.md |
+| **Agent** | discovery-pm |
+| **Timestamp** | {ISO-8601} |
+
+## Overall Scores
+
+| Metric | Score | Status |
+|--------|-------|--------|
+| **Confidence** | {0.0-1.0} | {PASS/FAIL} |
+| **Relevance** | {0.0-10.0} | {PASS/FAIL} |
+
+**Thresholds:** Confidence ≥ 0.70, Relevance ≥ 6.0
+
+## Section Scores
+
+| Section | Confidence | Relevance | Rationale |
+|---------|------------|-----------|-----------|
+| 1. Overview | {score} | {score} | {rationale} |
+| 2. Background/Context | {score} | {score} | {rationale} |
+| ... | ... | ... | ... |
+
+## Sections Completed
+- {Section names}
+
+## Sections Skipped
+- {Section names}
+
+## Quality Summary
+
+### Strengths
+- {Key strengths}
+
+### Areas for Improvement
+- {Areas needing work}
+
+### Dependencies
+- {External dependencies}
+
+## Recommendations
+
+| Area | Current | Target | Action | Impact |
+|------|---------|--------|--------|--------|
+| {Section} | {score} | {score} | {action} | {impact} |
+```
+
+#### JSON Format (`{ticket_id}-self-assessment.json`)
 
 This file provides a clean, structured format for tracking scores across PRD runs:
 
