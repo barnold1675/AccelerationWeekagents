@@ -1,0 +1,240 @@
+{
+  "metadata": {
+    "reportDate": "2025-11-19",
+    "analysisPeriod": {
+      "start": "2025-11-04",
+      "end": "2025-11-16"
+    },
+    "totalFeedback": 32,
+    "dataSources": ["Post Purchase Survey", "Always On Survey", "Abandon Checkout Survey"],
+    "relatedJiraIssue": "ADX-198",
+    "confluencePageId": "132841475"
+  },
+  "metrics": {
+    "nps": {
+      "promoters": 19,
+      "passives": 12,
+      "detractors": 69,
+      "score": -50
+    },
+    "csat": {
+      "average": 2.8,
+      "distribution": {
+        "0": 11,
+        "1-2": 6,
+        "3-5": 9,
+        "6-8": 3,
+        "9-10": 3
+      }
+    },
+    "sentiment": {
+      "negative": 87,
+      "positive": 6,
+      "neutral": 6
+    }
+  },
+  "themes": [
+    {
+      "id": 1,
+      "name": "Performance & Speed Issues",
+      "severity": "Critical",
+      "frequency": 38,
+      "count": 12,
+      "businessImpact": "Reduced order completion rates, increased support tickets, NPS detractors",
+      "verbatims": [
+        {
+          "quote": "Website is slow and not responsive. Your dev team needs to focus on optimizing speed.",
+          "account": "PENTHOUSE AT HUNTLEY HOTEL",
+          "state": "CA-South",
+          "date": "2025-11-14",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "The site is getting very slow to load, I'd prefer less flash faster loads",
+          "account": "PRIDE LIQUORS",
+          "state": "FL",
+          "date": "2025-11-11",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "Website needs a lot of work. Very very laggy, tons of missing pictures, overly complicated ways to search for past purchases and saved items.",
+          "account": "WINE BAR GEORGE",
+          "state": "FL",
+          "date": "2025-11-13",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "Since you guys updated the app it's very slow",
+          "account": "TOBACCO & LIQUOR EXPRESS",
+          "state": "NV",
+          "date": "2025-11-06",
+          "sentiment": "Negative"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Mobile App Quality Issues",
+      "severity": "Critical",
+      "frequency": 31,
+      "count": 10,
+      "businessImpact": "Mobile order abandonment, shift to inefficient channels, brand damage",
+      "verbatims": [
+        {
+          "quote": "Your new app and online ordering portal are garbage they time out they don't bring up order numbers. You need to get it together",
+          "account": "RUBAIYAT",
+          "state": "IA",
+          "date": "2025-11-08",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "Mobile app is garbage",
+          "account": "LUNA SEA LOUNGE",
+          "state": "CA-North",
+          "date": "2025-11-06",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "Ever since you updated my proof app sucks! Can't get products to show and cuts me out before done ordering",
+          "account": "THE BOTTLERY",
+          "state": "IL",
+          "date": "2025-11-10",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "Do not work well with my iPhone 16 pro max. I have to log in and out to search for the next product",
+          "account": "BEST PRICE LIQUOR",
+          "state": "TX",
+          "date": "2025-11-04",
+          "sentiment": "Negative"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Cart/Checkout Failures",
+      "severity": "High",
+      "frequency": 16,
+      "count": 5,
+      "businessImpact": "Direct revenue loss, customer churn, support escalations",
+      "verbatims": [
+        {
+          "quote": "While check out disappear the bottle cost!!!!!",
+          "account": "D & R DISCOUNT LIQUOR",
+          "state": "TX",
+          "date": "2025-11-13",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "Will not let me place order",
+          "account": "Anonymous",
+          "state": "Unknown",
+          "date": "2025-11-12",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "cant submit order",
+          "account": "THE SHED GRILL & BAR",
+          "state": "OK",
+          "date": "2025-11-04",
+          "sentiment": "Negative"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "UX/Navigation Issues",
+      "severity": "High",
+      "frequency": 22,
+      "count": 7,
+      "businessImpact": "Increased task completion time, abandonment, training burden",
+      "verbatims": [
+        {
+          "quote": "Please fix when you scroll and select an item to look at and you finish that it brings you back to where you left off..this system is very annoying. 2nd request on this issue",
+          "account": "SPIRITS OF PAWLING THE",
+          "state": "NY-Upstate",
+          "date": "2025-11-14",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "I found the new update to be less intuitive than the old interface. The search function is not working well on the update.",
+          "account": "STILL, THE",
+          "state": "NE",
+          "date": "2025-11-11",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "After ordering promo item it goes back to main screen instead staying on that same product list",
+          "account": "WOODSIDE LIQUORS",
+          "state": "DE",
+          "date": "2025-11-07",
+          "sentiment": "Negative"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Authentication/Login Problems",
+      "severity": "Medium",
+      "frequency": 9,
+      "count": 3,
+      "businessImpact": "Access barriers, support tickets, frustration",
+      "verbatims": [
+        {
+          "quote": "I have tried several times to reset password and it still won't work",
+          "account": "Anonymous",
+          "state": "MO",
+          "date": "2025-11-13",
+          "sentiment": "Negative"
+        },
+        {
+          "quote": "Hard to sign on.",
+          "account": "FOUR SEASONS AT TOUCHMARK AT M",
+          "state": "OR",
+          "date": "2025-11-05",
+          "sentiment": "Negative"
+        }
+      ]
+    }
+  ],
+  "geographicDistribution": {
+    "FL": { "count": 4, "topIssues": ["Speed", "Usability"] },
+    "CA": { "count": 5, "topIssues": ["Speed", "App Issues"] },
+    "TX": { "count": 4, "topIssues": ["App Issues", "Cart"] },
+    "NY": { "count": 4, "topIssues": ["UX", "Speed"] },
+    "NE": { "count": 3, "topIssues": ["Speed", "Usability"] },
+    "NV": { "count": 2, "topIssues": ["App Issues", "Speed"] },
+    "Other": { "count": 10, "topIssues": ["Various"] }
+  },
+  "deviceAnalysis": {
+    "mobile": { "count": 21, "percentage": 66, "primaryIssues": ["App crashes", "Slow performance", "Login issues"] },
+    "computer": { "count": 11, "percentage": 34, "primaryIssues": ["Speed", "Browser issues", "Cart problems"] }
+  },
+  "prdMapping": [
+    {
+      "painPoint": "Performance issues causing confusion",
+      "recommendedFeature": "Status page / Known Issues section",
+      "expectedImpact": "Set expectations, reduce support tickets"
+    },
+    {
+      "painPoint": "App update causing problems",
+      "recommendedFeature": "Release notes / What's New section",
+      "expectedImpact": "Help users understand changes"
+    },
+    {
+      "painPoint": "Navigation difficulties",
+      "recommendedFeature": "How-to guides / Job aids",
+      "expectedImpact": "Enable self-service problem solving"
+    },
+    {
+      "painPoint": "Checkout failures",
+      "recommendedFeature": "FAQ section with troubleshooting",
+      "expectedImpact": "Reduce abandoned carts"
+    },
+    {
+      "painPoint": "Login/authentication issues",
+      "recommendedFeature": "Password reset guide / Account help",
+      "expectedImpact": "Reduce support escalations"
+    }
+  ]
+}
