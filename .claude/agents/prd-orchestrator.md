@@ -163,30 +163,37 @@ I'll help you create a comprehensive PRD. To ensure the best results, I need to 
 **What is the Jira issue key?** (e.g., ADX-198)
 > This is required to fetch the issue context.
 
-### 2. VOC Integration
-**Should I include Voice of Customer analysis?**
-- [ ] Yes - Search Confluence for relevant customer feedback
-- [ ] No - Skip VOC section
-- [ ] I have specific VOC data to provide
+### 2. Agents to Invoke
+**Which agents should I use for this PRD?**
 
-If yes: **What keywords should I search for?** (e.g., "search", "checkout", "performance")
+**Required (always invoked):**
+- [x] Discovery PM Agent - Creates the PRD from Jira context
+
+**Optional:**
+- [ ] VOC Analysis Agent - Analyze customer feedback from Confluence
+- [ ] Feature PM Agent - Create backlog items and user stories
+- [ ] Rollout PM Agent - Create launch plan and KPIs
+
+### 3. VOC Configuration (if VOC Agent selected)
+**What keywords should I search for?** (e.g., "search", "checkout", "performance")
 > Leave blank to auto-extract from Jira issue.
 
-### 3. Confluence Publishing
+**What time period?** (default: 90 days)
+
+### 4. Confluence Publishing
 **Do you want to publish the final PRD to Confluence?**
 - [ ] Yes - Publish to ADX Week space
 - [ ] No - Local file only
 - [ ] Ask me after review
 
-### 4. Additional Agents
-**Which additional agents should contribute?**
-- [ ] Feature PM - Create backlog items and user stories
-- [ ] Rollout PM - Create launch plan and KPIs
-- [ ] None - Discovery PM + VOC only
-
 ### 5. Special Instructions
 **Any specific requirements or context I should know?**
 > (e.g., "Focus on mobile experience", "Competitor X just launched similar feature")
+
+---
+
+**Based on your selections, I will invoke these agents in order:**
+1. [Agent list based on answers]
 ```
 
 ### Conditional Questions
