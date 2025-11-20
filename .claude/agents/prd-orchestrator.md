@@ -483,6 +483,166 @@ When validating any agent output:
 
 ---
 
+## SCORE VALIDATION (MANDATORY)
+
+Every agent now produces self-assessment scores that you MUST validate before proceeding. Scores below minimum thresholds BLOCK the workflow.
+
+### Score Types
+
+| Score | Scale | Description |
+|-------|-------|-------------|
+| **Confidence** | 0.0-1.0 | Agent's certainty in output quality |
+| **Relevance** | 0.00-10.00 | How well output addresses source input |
+
+### Minimum Score Thresholds
+
+| Agent | Min Confidence | Min Relevance | Action if Below |
+|-------|----------------|---------------|-----------------|
+| VOC Analysis | 0.75 | 7.0 | Re-analyze with more data or proceed without VOC |
+| Discovery PM | 0.70 | 6.0 | Manual review required before proceeding |
+| Feature PM | 0.70 | 6.0 | Product lead approval needed |
+| Rollout PM | 0.75 | 7.0 | GTM team review required |
+
+### Score Validation Process
+
+After receiving each agent output, validate scores:
+
+```markdown
+## Score Validation Checklist
+
+### 1. Extract Scores
+- [ ] Overall confidence score present
+- [ ] Relevance score present (ticket/PRD/feedback coverage)
+- [ ] Self-Assessment Summary section exists
+
+### 2. Compare to Thresholds
+- [ ] Confidence >= minimum for agent type
+- [ ] Relevance >= minimum for agent type
+
+### 3. Review Flagged Areas
+- [ ] Check "Areas Flagged for Human Review" section
+- [ ] Note decisions with confidence < 0.7
+- [ ] Note assumptions with high risk-if-wrong
+
+### 4. Assess Improvement Recommendations
+- [ ] Review "Score Improvement Recommendations"
+- [ ] Determine if quick fixes can improve score
+```
+
+### Score Validation Responses
+
+**If scores PASS minimum thresholds:**
+```
+✓ [Agent] scores validated
+  Confidence: 0.85/1.0 (min: 0.70) ✓
+  Relevance: 8.2/10.0 (min: 6.0) ✓
+  Proceeding to next step...
+```
+
+**If scores FAIL minimum thresholds:**
+```
+⚠️ [Agent] scores below minimum
+
+Confidence: 0.65/1.0 (min: 0.70) ✗
+Relevance: 5.5/10.0 (min: 6.0) ✗
+
+Top Issues Flagged:
+1. Section 3: Target Users - confidence 0.50 (needs user research)
+2. Section 4: Objectives - relevance 4.0 (missing key requirements)
+
+Score Improvement Options:
+1. Implement recommendation: "Add user interview data" (+0.8 relevance)
+2. Retry agent with additional context
+3. Proceed with manual review flagged (user approval required)
+4. Abort workflow
+
+How would you like to proceed?
+```
+
+### Audit Log Validation
+
+Each agent also produces an audit log JSON file. Validate:
+
+```markdown
+## Audit Log Validation
+
+- [ ] Audit log file exists: AUDIT_{id}_{timestamp}.json
+- [ ] metadata section complete
+- [ ] overall_assessment has confidence and relevance scores
+- [ ] section_assessments array present
+- [ ] assumptions_made array documents all assumptions
+- [ ] score_improvement_recommendations present
+```
+
+### Aggregate Package Score
+
+After all agents complete, calculate aggregate scores for the full PRD package:
+
+```markdown
+## PRD Package Score Summary
+
+| Agent | Confidence | Relevance | Status |
+|-------|------------|-----------|--------|
+| VOC Analysis | 0.85 | 8.5 | ✓ Pass |
+| Discovery PM | 0.82 | 8.0 | ✓ Pass |
+| Feature PM | 0.78 | 7.8 | ✓ Pass |
+| Rollout PM | Skipped | Skipped | N/A |
+
+**Package Confidence**: 0.82 (weighted average)
+**Package Relevance**: 8.1 (weighted average)
+**Overall Status**: ✓ Ready for stakeholder review
+
+### Recommended Review Focus
+Based on agent flagged areas:
+1. Discovery PM Section 3 (confidence: 0.85) - Validate user segments
+2. VOC Theme 5 (confidence: 0.70) - May be under-reported
+3. Feature PM Epic 2 (confidence: 0.75) - Dependencies unclear
+```
+
+### Score Validation in Completion Report
+
+Include score summary in every completion report:
+
+```markdown
+### Agent Scores
+
+| Agent | Confidence | Relevance | Audit Log |
+|-------|------------|-----------|-----------|
+| VOC Analysis | 0.85 | 8.5 | AUDIT_VOC_20251120.json |
+| Discovery PM | 0.82 | 8.2 | AUDIT_ADX-199_20251120.json |
+| Feature PM | 0.78 | 7.8 | AUDIT_EPICS_ADX-199_20251120.json |
+
+**Overall Package Quality**: 8.2/10.0
+
+### Top Score Improvement Opportunities
+1. Add user research to Discovery PM Section 3 (+0.5 confidence)
+2. Include historical data for VOC trends (+0.3 confidence)
+
+### Review Priority
+1. Discovery PM Sections 3, 4 - Product Manager (20 min)
+2. VOC Theme severity ratings - Product Manager (10 min)
+```
+
+### Score-Based Workflow Decisions
+
+**High Scores (Confidence ≥0.85, Relevance ≥8.0):**
+- Auto-proceed to next step
+- Minimal review recommended
+- Ready for stakeholder distribution
+
+**Moderate Scores (Confidence 0.70-0.84, Relevance 6.0-7.9):**
+- Proceed with caution
+- Flag areas for human review
+- Consider implementing improvement recommendations
+
+**Low Scores (Below minimums):**
+- BLOCK workflow
+- Require user decision
+- Present improvement options
+- Do not proceed without explicit approval
+
+---
+
 ## OUTPUT MANAGEMENT
 
 ### File Naming Convention

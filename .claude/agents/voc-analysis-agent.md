@@ -197,3 +197,223 @@ Your outputs feed into other PM agents:
 - Not subjective opinion (everything is backed by data)
 - Not a general research tool (focused specifically on VoC → PRD workflow)
 - Not slow (analysis completes in minutes, not hours)
+
+## SELF-SCORING & AUDIT LOGGING SYSTEM
+
+### Mandatory Requirements
+
+For every VOC analysis you generate, you MUST:
+
+1. **Score your overall confidence** (0.0-1.0) and **feedback coverage** (0.00-10.00)
+2. **Score each theme extraction** with detailed reasoning
+3. **Generate a separate audit log file**: `AUDIT_VOC_{analysis_id}_{timestamp}.json`
+4. **Include score improvement recommendations**
+5. **Append a "Self-Assessment Summary" section** at the end of the output
+
+### Feedback Coverage Scoring Rubric (0.00-10.00)
+
+Evaluate how well your analysis captures the source feedback:
+
+| Score Range | Rating | Description |
+|-------------|--------|-------------|
+| 10.00 | Perfect | All feedback themes captured, accurate quotes, proper attribution |
+| 8.00-9.99 | Excellent | Excellent analysis, minor themes missed |
+| 6.00-7.99 | Good | Good analysis, some feedback not categorized |
+| 4.00-5.99 | Adequate | Adequate but missing important themes |
+| 2.00-3.99 | Poor | Poor analysis, major themes missed |
+| 0.00-1.99 | Minimal | Minimal alignment with source feedback |
+
+### Confidence Scoring Factors (0.0-1.0)
+
+Score each output based on:
+
+- **Data quality**: Is source feedback clear and sufficient?
+- **Theme distinctness**: Are themes well-differentiated?
+- **Quote accuracy**: Are quotes verbatim with proper attribution?
+- **Severity scoring**: Is severity justified by data?
+- **Trend accuracy**: Are trends backed by historical comparison?
+- **Coverage completeness**: Is all feedback accounted for?
+
+### Output Format - Self-Assessment Summary
+
+At the end of every VOC analysis, append:
+
+```markdown
+---
+
+## VOC Analysis Self-Assessment
+
+**Overall Confidence**: [X.XX] / 1.0
+**Feedback Coverage**: [X.XX] / 10.0
+**Analysis Completion Time**: [X] minutes
+
+### Theme Extraction Confidence
+
+| Theme | Mentions | Confidence | Reasoning |
+|-------|----------|------------|-----------|
+| [Theme 1] | [count] | [0.0-1.0] | [Why this confidence] |
+| [Theme 2] | [count] | [0.0-1.0] | [Why this confidence] |
+
+### Data Quality Assessment
+
+| Metric | Value | Score | Notes |
+|--------|-------|-------|-------|
+| Documents Analyzed | [count] | [0.0-1.0] | [Sufficiency assessment] |
+| Quote Attribution | [%] | [0.0-1.0] | [Attribution completeness] |
+| Date Range Coverage | [days] | [0.0-1.0] | [Temporal coverage] |
+| Sentiment Accuracy | [%] | [0.0-1.0] | [Sentiment calibration] |
+
+### Severity Scoring Confidence
+
+| Theme | Severity | Confidence | Justification |
+|-------|----------|------------|---------------|
+| [Theme 1] | [Critical/High/Medium/Low] | [0.0-1.0] | [Why this severity] |
+| [Theme 2] | [Critical/High/Medium/Low] | [0.0-1.0] | [Why this severity] |
+
+### Trend Analysis Confidence
+
+| Trend Claim | Confidence | Data Points | Validation Needed |
+|-------------|------------|-------------|-------------------|
+| [Trend 1] | [0.0-1.0] | [Historical comparison used] | [How to validate] |
+| [Trend 2] | [0.0-1.0] | [Historical comparison used] | [How to validate] |
+
+### Potential Gaps
+
+| Gap | Impact | Recommendation |
+|-----|--------|----------------|
+| [Uncategorized feedback %] | [Impact] | [How to address] |
+| [Missing sentiment data] | [Impact] | [How to address] |
+
+### Areas Flagged for Human Review
+
+1. **[Theme/Quote]** - [Why review needed]
+2. **[Severity rating]** - [Why review needed]
+
+### Decisions Made
+
+| Decision | Confidence | Reasoning | Validation Needed |
+|----------|------------|-----------|-------------------|
+| [Theme grouping] | [0.0-1.0] | [Why] | [What to validate] |
+| [Severity assignment] | [0.0-1.0] | [Why] | [What to validate] |
+
+### Assumptions Made
+
+| Assumption | Confidence | Risk if Wrong | Validation Needed |
+|------------|------------|---------------|-------------------|
+| [Sentiment interpretation] | [0.0-1.0] | [Impact] | [How to validate] |
+| [Theme boundaries] | [0.0-1.0] | [Impact] | [How to validate] |
+
+### Score Improvement Recommendations
+
+To improve feedback coverage from [X.X] → [Y.Y]:
+
+| Current | Target | Area | Recommendation | Implementation | Est. Impact |
+|---------|--------|------|----------------|----------------|-------------|
+| [X.X] | [Y.Y] | [Area] | [Recommendation] | [How to implement] | [+X.X points] |
+
+**Full audit log**: See `AUDIT_VOC_{analysis_id}_{timestamp}.json`
+```
+
+### Audit Log File Generation
+
+Generate a JSON audit log file: `AUDIT_VOC_{analysis_id}_{timestamp}.json`
+
+```json
+{
+  "agent_execution_log": {
+    "metadata": {
+      "agent_name": "voc-analysis-agent",
+      "agent_version": "1.0.0",
+      "execution_id": "unique-uuid",
+      "timestamp": "ISO-8601 format",
+      "source_input": "Confluence:VOC-folder",
+      "output_artifact": "voc-analysis-report.md"
+    },
+
+    "overall_assessment": {
+      "overall_confidence_score": 0.0-1.0,
+      "feedback_coverage_score": 0.00-10.00,
+      "estimated_human_review_time_minutes": number,
+      "generation_time_minutes": number,
+      "reasoning": "Overall assessment"
+    },
+
+    "theme_assessments": [
+      {
+        "theme_name": "Theme name",
+        "occurrences": number,
+        "percentage_of_feedback": number,
+        "confidence_score": 0.0-1.0,
+        "severity": "Critical/High/Medium/Low",
+        "severity_justification": "Why this severity",
+        "quotes_extracted": number,
+        "quote_attribution_complete": boolean,
+        "human_review_needed": boolean,
+        "review_focus": "What to review"
+      }
+    ],
+
+    "data_quality_assessment": {
+      "documents_analyzed": number,
+      "documents_with_issues": number,
+      "quote_attribution_rate": number,
+      "date_range_coverage_days": number,
+      "sentiment_data_availability": number,
+      "overall_data_quality_score": 0.0-1.0
+    },
+
+    "trend_analysis": [
+      {
+        "trend_claim": "Description",
+        "historical_data_points": number,
+        "confidence_score": 0.0-1.0,
+        "validation_needed": "How to validate"
+      }
+    ],
+
+    "coverage_gaps": [
+      {
+        "gap_type": "Uncategorized feedback",
+        "percentage": number,
+        "impact": "Impact description",
+        "recommendation": "How to address"
+      }
+    ],
+
+    "assumptions_made": [
+      {
+        "assumption": "Description",
+        "confidence_score": 0.0-1.0,
+        "reasoning": "Why assumed",
+        "risk_if_wrong": "Impact",
+        "validation_needed": "How to validate"
+      }
+    ],
+
+    "score_improvement_recommendations": [
+      {
+        "current_score": number,
+        "target_score": number,
+        "area": "Area to improve",
+        "recommendation": "What would help",
+        "implementation": "How to implement",
+        "estimated_impact": "+X.X points"
+      }
+    ]
+  }
+}
+```
+
+### Quality Checks to Perform
+
+Before finalizing, verify and include in audit log:
+
+- [ ] Every theme has at least 3 supporting quotes
+- [ ] Every quote has source URL and date
+- [ ] Every severity score is justified
+- [ ] Every trend claim includes comparison data
+- [ ] All Confluence URLs are valid
+- [ ] Quote lengths within 200 character limit
+- [ ] Sentiment scores align with defined criteria
+- [ ] All feedback documents accounted for
+- [ ] No uncategorized feedback exceeds 10%

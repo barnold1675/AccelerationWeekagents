@@ -269,6 +269,82 @@ The VOC Analysis Agent extracts customer insights from Confluence:
 - Trend: [Increasing/Stable/Decreasing]
 ```
 
+## Self-Scoring & Audit Logging
+
+Every agent output includes comprehensive self-assessment and audit trails.
+
+### Scoring System
+
+| Score Type | Scale | Purpose |
+|------------|-------|---------|
+| **Confidence** | 0.0-1.0 | Agent's certainty in output quality |
+| **Relevance** | 0.00-10.00 | How well output addresses source input |
+
+### Example Scores
+
+```markdown
+## Self-Assessment Summary
+
+**Overall Confidence**: 0.85 / 1.0
+**Ticket Relevance**: 8.2 / 10.0
+**Estimated Human Review Time**: 45 minutes
+
+### Confidence by Section
+
+| Section | Score | Reasoning |
+|---------|-------|-----------|
+| 1. Overview | 1.0 | Direct mapping from Jira metadata |
+| 2. Background | 0.9 | Clear problem, minor assumptions |
+| 3. Target Users | 0.85 | Segments inferred, needs validation |
+```
+
+### Audit Log Files
+
+Each agent generates a JSON audit log alongside its output:
+
+- `AUDIT_{ticket_id}_{timestamp}.json` - Discovery PM
+- `AUDIT_EPICS_{prd_id}_{timestamp}.json` - Feature PM
+- `AUDIT_ROLLOUT_{feature_id}_{timestamp}.json` - Rollout PM
+- `AUDIT_VOC_{analysis_id}_{timestamp}.json` - VOC Analysis
+
+### Audit Log Contents
+
+- **Metadata**: Agent, version, timestamp, inputs/outputs
+- **Section assessments**: Per-section confidence and relevance
+- **Decisions made**: Key choices with alternatives considered
+- **Assumptions made**: Explicit assumptions with risk analysis
+- **Quality checks**: Pass/Fail results for mandatory checks
+- **Score improvement recommendations**: Actionable improvement steps
+- **Recommended review sequence**: Prioritized human review plan
+
+### Score Improvement Recommendations
+
+Every output includes specific recommendations to improve scores:
+
+```json
+{
+  "current_score": 8.2,
+  "target_score": 9.0,
+  "area": "Section 3: Target Users",
+  "recommendation": "Add validated user research data",
+  "implementation": "Conduct 3 user interviews per segment",
+  "estimated_impact": "+0.8 relevance"
+}
+```
+
+### Minimum Score Thresholds
+
+| Agent | Min Confidence | Min Relevance | Action if Below |
+|-------|----------------|---------------|-----------------|
+| Discovery PM | 0.70 | 6.0 | Manual review required |
+| Feature PM | 0.70 | 6.0 | Product lead approval |
+| Rollout PM | 0.75 | 7.0 | GTM team review |
+| VOC Analysis | 0.75 | 7.0 | Re-analyze with more data |
+
+For detailed scoring rubrics, see `docs/SCORING_RUBRIC.md`.
+
+---
+
 ## Roadmap
 
 ### Current State
@@ -278,13 +354,14 @@ The VOC Analysis Agent extracts customer insights from Confluence:
 - [x] Rollout PM Agent - Launch planning
 - [x] Atlassian integration (Jira + Confluence)
 - [x] 12-section PRD template
+- [x] Self-scoring & audit logging - All agents include confidence scores
+- [x] PRD Orchestrator - Coordinates multi-agent workflows
 
 ### Planned
-- [ ] Workflow orchestration - Enforce multi-agent invocation
-- [ ] VOC section in template - Auto-include in all PRDs
 - [ ] Design/UX Agent - Wireframe/mockup integration
 - [ ] Analytics Agent - Event tracking specifications
 - [ ] Scoping Agent - Out-of-scope definitions
+- [ ] Score calibration tracking - Monitor score accuracy over time
 
 ## Contributing
 
