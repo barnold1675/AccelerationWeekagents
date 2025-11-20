@@ -1,0 +1,378 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PM Agent I/O Contracts",
+  "description": "Defines input/output schemas for all PM agents to enable orchestration and inter-agent communication",
+  "version": "1.0.0",
+
+  "agents": {
+    "voc-analysis-agent": {
+      "description": "Analyzes customer feedback from Confluence",
+      "input": {
+        "type": "object",
+        "required": ["cloudId"],
+        "properties": {
+          "cloudId": {
+            "type": "string",
+            "description": "Atlassian Cloud ID"
+          },
+          "pageId": {
+            "type": "string",
+            "description": "Confluence page ID containing VOC data"
+          },
+          "keywords": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Keywords to filter/search VOC data"
+          },
+          "lookbackDays": {
+            "type": "integer",
+            "default": 90,
+            "description": "Number of days of feedback to analyze"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "analysisPeriod": { "type": "string" },
+              "documentsAnalyzed": { "type": "integer" },
+              "themesIdentified": { "type": "integer" },
+              "overallSentiment": { "type": "number" },
+              "avgNPS": { "type": "number" },
+              "avgCSAT": { "type": "number" }
+            }
+          },
+          "themes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "severity": {
+                  "type": "string",
+                  "enum": ["Critical", "High", "Medium", "Low"]
+                },
+                "frequency": { "type": "number" },
+                "frequencyPercent": { "type": "number" },
+                "sentiment": { "type": "number" },
+                "quotes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "text": { "type": "string" },
+                      "source": { "type": "string" },
+                      "date": { "type": "string" },
+                      "url": { "type": "string" }
+                    }
+                  }
+                },
+                "businessImpact": { "type": "string" }
+              }
+            }
+          },
+          "files": {
+            "type": "object",
+            "properties": {
+              "markdown": { "type": "string" },
+              "json": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "discovery-pm": {
+      "description": "Creates comprehensive PRDs from Jira issues",
+      "input": {
+        "type": "object",
+        "required": ["jiraIssue"],
+        "properties": {
+          "jiraIssue": {
+            "type": "object",
+            "properties": {
+              "key": { "type": "string" },
+              "summary": { "type": "string" },
+              "description": { "type": "string" },
+              "issueType": { "type": "string" },
+              "status": { "type": "string" },
+              "creator": { "type": "string" },
+              "links": { "type": "array" }
+            }
+          },
+          "vocAnalysis": {
+            "type": "object",
+            "description": "Output from VOC Analysis Agent"
+          },
+          "templatePath": {
+            "type": "string",
+            "default": "Templates/product-brief-template.md"
+          },
+          "specialInstructions": {
+            "type": "string",
+            "description": "Additional context or focus areas"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "prdFile": {
+            "type": "string",
+            "description": "Path to generated PRD file"
+          },
+          "sections": {
+            "type": "object",
+            "properties": {
+              "completed": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "tbd": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Sections left as TBD for other agents"
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "jiraKey": { "type": "string" },
+              "title": { "type": "string" },
+              "author": { "type": "string" },
+              "dateCreated": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "feature-pm": {
+      "description": "Translates PRDs into backlog items and user stories",
+      "input": {
+        "type": "object",
+        "required": ["prdFile"],
+        "properties": {
+          "prdFile": {
+            "type": "string",
+            "description": "Path to PRD file"
+          },
+          "prioritizationFramework": {
+            "type": "string",
+            "enum": ["RICE", "MoSCoW", "Value/Effort"],
+            "default": "RICE"
+          },
+          "createJiraStories": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to create stories in Jira"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "epics": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "stories": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "title": { "type": "string" },
+                      "description": { "type": "string" },
+                      "acceptanceCriteria": { "type": "array" },
+                      "priority": { "type": "string" },
+                      "riceScore": { "type": "number" },
+                      "dependencies": { "type": "array" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "backlogFile": {
+            "type": "string",
+            "description": "Path to backlog document"
+          },
+          "totalStories": { "type": "integer" },
+          "jiraStoriesCreated": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "rollout-pm": {
+      "description": "Plans product rollouts and defines success metrics",
+      "input": {
+        "type": "object",
+        "required": ["prdFile"],
+        "properties": {
+          "prdFile": {
+            "type": "string",
+            "description": "Path to PRD file"
+          },
+          "rolloutStrategy": {
+            "type": "string",
+            "enum": ["big-bang", "phased", "beta-first"],
+            "default": "phased"
+          },
+          "targetDate": {
+            "type": "string",
+            "description": "Target launch date (optional)"
+          },
+          "constraints": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Launch constraints or dependencies"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "phases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "trafficPercent": { "type": "integer" },
+                "duration": { "type": "string" },
+                "criteria": { "type": "array" }
+              }
+            }
+          },
+          "kpis": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "baseline": { "type": "string" },
+                "target": { "type": "string" },
+                "measurementMethod": { "type": "string" }
+              }
+            }
+          },
+          "gtmChecklist": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "rolloutPlanFile": {
+            "type": "string",
+            "description": "Path to rollout plan document"
+          }
+        }
+      }
+    },
+
+    "prd-orchestrator": {
+      "description": "Coordinates all PM agents to create complete PRD packages",
+      "input": {
+        "type": "object",
+        "required": ["jiraKey"],
+        "properties": {
+          "jiraKey": {
+            "type": "string",
+            "description": "Jira issue key (e.g., ADX-198)"
+          },
+          "includeVOC": {
+            "type": "boolean",
+            "default": true
+          },
+          "vocKeywords": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Keywords for VOC search (auto-extracted if not provided)"
+          },
+          "additionalAgents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["feature-pm", "rollout-pm"]
+            }
+          },
+          "publishToConfluence": {
+            "type": "boolean",
+            "default": false
+          },
+          "specialInstructions": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "prdFile": { "type": "string" },
+          "vocAnalysisFile": { "type": "string" },
+          "backlogFile": { "type": "string" },
+          "rolloutPlanFile": { "type": "string" },
+          "confluenceUrl": { "type": "string" },
+          "agentResults": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": ["success", "failed", "skipped"]
+                },
+                "output": { "type": "object" },
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "orchestration": {
+    "keywordExtraction": {
+      "description": "Rules for auto-extracting VOC search keywords from Jira issues",
+      "sources": [
+        "Jira issue summary (all significant words)",
+        "Jira issue description (noun phrases)",
+        "Common product terms (search, checkout, cart, login, etc.)"
+      ],
+      "filters": [
+        "Remove stop words",
+        "Limit to 5-7 keywords",
+        "Prioritize product feature terms"
+      ],
+      "example": {
+        "input": "ADX Week Search V2 - Coveo Commerce API migration for improved merchandising",
+        "output": ["search", "commerce", "merchandising", "Coveo", "results"]
+      }
+    },
+
+    "vocFeatureMapping": {
+      "description": "How Discovery PM should map VOC themes to In-Scope features",
+      "process": [
+        "1. Receive VOC themes with severity and business impact",
+        "2. For each In-Scope feature, identify which VOC theme(s) it addresses",
+        "3. Document the mapping in Section 2.1 VOC → Feature Mapping table",
+        "4. Explain expected customer impact for each mapping"
+      ],
+      "example": {
+        "vocTheme": "Performance and Speed Degradation",
+        "inScopeFeature": "Coveo Commerce API Integration",
+        "expectedImpact": "API architecture will reduce response times by ~40% based on benchmarks"
+      }
+    }
+  }
+}
