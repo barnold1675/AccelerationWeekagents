@@ -155,9 +155,11 @@ You MUST score every PRD output on these 2 dimensions:
 
 **What to measure**:
 - All Epic requirements captured in PRD sections
-- No hallucinated requirements
+- No hallucinated requirements (invented features not in Epic)
 - Correct interpretation of acceptance criteria
-- Appropriate assumptions clearly marked
+- Success metrics match Epic targets exactly
+- User stories preserved accurately
+- Risks and mitigations from Epic included
 - Agent boundaries respected (Design/Analytics sections left TBD)
 
 **Scoring Rubric**:
@@ -176,183 +178,119 @@ You MUST score every PRD output on these 2 dimensions:
 - Award full marks only for perfect fidelity to source
 
 ### 2. Value Score (0.00-10.00)
-**"How well does this PRD solve the customer problems identified in VOC?"**
+**"Is this work worth doing? Does the PRD justify investment?"**
+
+The Value Score is a holistic business value assessment, not just VOC alignment.
 
 **What to measure**:
-- PRD addresses high-impact VOC themes (accuracy, speed, UI)
-- Success metrics align with customer pain points
-- Goals target reduction in customer friction
-- Out-of-scope decisions don't sacrifice critical customer value
+
+| Component | Weight | Assessment Criteria |
+|-----------|--------|---------------------|
+| **VOC Alignment** | 30% | Does PRD address customer pain points from feedback? |
+| **Revenue Impact** | 25% | Conversion lift, basket size, LTV improvements quantified? |
+| **Strategic Fit** | 20% | Aligns with company goals, roadmap priorities? |
+| **Efficiency Gains** | 15% | Cost reduction, automation, support deflection identified? |
+| **Competitive Edge** | 10% | Market differentiation, barrier to entry created? |
 
 **Scoring Rubric**:
 | Score Range | Description |
 |-------------|-------------|
-| 9.0-10.0 | Exceptional value, directly solves critical customer problems with clear impact |
-| 7.0-8.9 | High value, addresses major customer needs |
-| 5.0-6.9 | Moderate value, solves some customer problems |
-| 3.0-4.9 | Low value, tangential to customer needs |
-| 1.0-2.9 | Minimal value, disconnected from customer problems |
-| 0.0-0.9 | No clear customer value |
+| 9.0-10.0 | Exceptional value, clear business case with strong ROI indicators across all components |
+| 7.0-8.9 | High value, solid value proposition with quantified benefits |
+| 5.0-6.9 | Moderate value, value present but not fully quantified |
+| 3.0-4.9 | Low value, weak business case or unclear benefits |
+| 1.0-2.9 | Minimal value, no clear value proposition |
+| 0.0-0.9 | No value, cannot justify investment |
 
 **Score honestly**:
-- Deduct points for VOC themes not addressed
-- Deduct points for misalignment with customer priorities
-- Award full marks only for solutions that directly address top customer problems
+- Deduct points for missing business value components
+- Deduct points for unquantified benefits
+- Deduct points for poor strategic alignment
+- Award full marks only for PRDs that clearly justify the investment with evidence
 
 ---
 
 ### Output Format
 
-At the end of every PRD, append:
+**IMPORTANT**: Do NOT include scores in the PRD itself. The PRD should end at the Glossary section.
+
+Instead, generate a separate markdown scores file saved to: `Run_Scores/SCORES_{ticket_id}_{timestamp}.md`
 
 ```markdown
+# Score Report: {ticket_id}
+
+**Generated**: {timestamp}
+**PRD**: {prd_filename}
+
 ---
 
-## 📊 Self-Assessment
+## Translation Score: X.X / 10.0
 
-### Scores
-- **Translation Score**: X.X / 10.0
-- **Value Score**: X.X / 10.0
-- **Overall Confidence**: 0.XX
-- **Estimated Human Review Time**: XX minutes
+**Definition**: How accurately the PRD captures the Jira Epic requirements
 
-### Translation Analysis
-**What I translated well**:
-- ✅ [Specific requirement captured]
-- ✅ [Another requirement captured]
-- ✅ Agent boundaries respected (Sections 6, 8 marked TBD)
+### What was translated well
+- [Specific requirement captured accurately]
+- [Another requirement captured]
 
-**Where translation could improve** (-X.X points):
-- ⚠️ [Assumption or gap that needs validation]
-- ⚠️ [Another area for improvement]
+### Deductions (-X.X points)
+- [Gap or assumption that needs validation]
+- [Another area for improvement]
 
-### Value Analysis
-**Customer problems addressed**:
-- ✅ **[VOC Theme #1]** ([X mentions, $X impact]): [How addressed in PRD]
-- ✅ **[VOC Theme #2]** ([X mentions, $X impact]): [How addressed in PRD]
-- ⚠️ **[VOC Theme #3]** ([X mentions, $X impact]): [Partially addressed or deferred]
-- ❌ **[VOC Theme #4]** ([Customer request]): Out of scope
+---
 
-**Where value could improve** (-X.X points):
-- [Specific value gap]
-- [Another value gap]
+## Value Score: X.X / 10.0
 
-### Score Improvement Recommendations
+**Definition**: How well the PRD demonstrates business value
 
-**To reach X.X Translation Score** (+X.X points):
+### Component Breakdown
+
+| Component | Weight | Score | Assessment |
+|-----------|--------|-------|------------|
+| VOC Alignment | 30% | X.X | [How PRD addresses customer pain points] |
+| Revenue Impact | 25% | X.X | [Conversion, basket size, LTV improvements] |
+| Strategic Fit | 20% | X.X | [Alignment with company goals] |
+| Efficiency Gains | 15% | X.X | [Cost reduction, automation benefits] |
+| Competitive Edge | 10% | X.X | [Market differentiation created] |
+
+---
+
+## Improvement Recommendations
+
+### To improve Translation Score
 1. [Specific action] (X min)
 2. [Another action] (X min)
 
-**To reach X.X Value Score** (+X.X points):
-1. [Specific action to increase customer value]
+### To improve Value Score
+1. [Specific action]
 2. [Another action]
 
-### Human Review Needed
-🔴 **Critical** (X min):
-- [Reviewer Role]: [What to review]
+---
+
+## Human Review Needed
+
+**Critical** (X min):
 - [Reviewer Role]: [What to review]
 
-🟡 **Optional** (X min):
+**Optional** (X min):
 - [Reviewer Role]: [What to review]
-
-**Full audit log**: `docs/AUDIT_{ticket_id}_{timestamp}.json`
 ```
 
 ---
 
-### Audit Log File Generation
+### File Output Summary
 
-Generate a comprehensive JSON audit log to `docs/AUDIT_{ticket_id}_{timestamp}.json`:
+For every PRD creation, you generate exactly 2 files:
 
-```json
-{
-  "agent_execution_log": {
-    "metadata": {
-      "agent_name": "discovery-pm",
-      "agent_version": "0.0.1",
-      "execution_id": "exec_{timestamp}",
-      "timestamp": "ISO-8601",
-      "source_input": "Epic:{ticket_id}",
-      "output_artifact": "PRD_{ticket_id}.md",
-      "generation_time_minutes": 0.0
-    },
+1. **PRD Document**: `PRDs/{ticket_id}_PRD.md`
+   - Full 12-section PRD
+   - Ends at Glossary (no scores in PRD)
 
-    "scores": {
-      "translation_score": 0.0,
-      "translation_reasoning": "Detailed explanation of translation accuracy",
+2. **Scores Report**: `Run_Scores/SCORES_{ticket_id}_{timestamp}.md`
+   - Translation and Value scores
+   - Component breakdown
+   - Improvement recommendations
 
-      "value_score": 0.0,
-      "value_reasoning": "Detailed explanation of customer value alignment",
-
-      "overall_confidence": 0.0,
-      "estimated_human_review_time_minutes": 0
-    },
-
-    "translation_breakdown": [
-      {
-        "source_element": "Epic requirement text",
-        "output_element": "PRD section reference",
-        "translation_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "value_breakdown": [
-      {
-        "voc_theme": "Theme name (X mentions, $X impact)",
-        "how_addressed": "How PRD addresses this theme",
-        "value_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "score_improvement_recommendations": [
-      {
-        "score_type": "translation|value",
-        "current_score": 0.0,
-        "target_score": 0.0,
-        "recommendation": "What to do",
-        "implementation": "How to implement",
-        "estimated_impact": "+X.X score"
-      }
-    ],
-
-    "quality_checks": [
-      {
-        "check": "Check description",
-        "result": "PASS|WARNING|FAIL",
-        "details": "Specific findings"
-      }
-    ],
-
-    "data_sources": [
-      {
-        "source": "Source identifier",
-        "type": "Requirements|Customer Problems|Business Context",
-        "confidence_in_source": 0.0,
-        "reasoning": "Why this confidence"
-      }
-    ],
-
-    "human_review_guidance": {
-      "critical_reviews_needed": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ],
-      "optional_reviews": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ]
-    }
-  }
-}
-```
+**No JSON audit files are generated.**
 
 ---
 
@@ -366,3 +304,4 @@ Before finalizing, verify:
 - [ ] No hallucinated requirements
 - [ ] All TBD placeholders preserved
 - [ ] Template structure maintained
+- [ ] Scores saved to Run_Scores folder (not in PRD)

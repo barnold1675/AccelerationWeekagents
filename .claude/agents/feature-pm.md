@@ -172,184 +172,112 @@ You MUST score every Epic/Story breakdown on these 2 dimensions:
 - Award full marks only for complete PRD coverage with traceable stories
 
 ### 2. Value Score (0.00-10.00)
-**"How well do these prioritized stories deliver customer value?"**
+**"Does this backlog prioritization maximize business value?"**
+
+The Value Score assesses whether the backlog delivers maximum business value, not just customer value.
 
 **What to measure**:
-- High-impact customer problems addressed in early sprints
-- Prioritization reflects VOC theme severity
-- Dependencies don't block value delivery
-- MVP delivers core customer value quickly
+
+| Component | Weight | Assessment Criteria |
+|-----------|--------|---------------------|
+| **VOC Alignment** | 30% | High-impact customer problems addressed in early sprints |
+| **Revenue Impact** | 25% | Stories prioritized by revenue/conversion potential |
+| **Strategic Fit** | 20% | Backlog aligns with company goals and roadmap |
+| **Efficiency Gains** | 15% | Technical debt and automation stories balanced properly |
+| **Competitive Edge** | 10% | Differentiating features prioritized appropriately |
 
 **Scoring Rubric**:
 | Score Range | Description |
 |-------------|-------------|
-| 9.0-10.0 | Exceptional value, prioritization directly maximizes customer impact |
-| 7.0-8.9 | High value, prioritization addresses major customer needs first |
-| 5.0-6.9 | Moderate value, some customer-value stories deprioritized |
-| 3.0-4.9 | Low value, prioritization misses key customer needs |
-| 1.0-2.9 | Minimal value, prioritization disconnected from customer problems |
-| 0.0-0.9 | No clear customer value alignment |
+| 9.0-10.0 | Exceptional value, prioritization maximizes business impact across all components |
+| 7.0-8.9 | High value, solid prioritization with quantified benefits |
+| 5.0-6.9 | Moderate value, some value components not fully optimized |
+| 3.0-4.9 | Low value, prioritization misses key business opportunities |
+| 1.0-2.9 | Minimal value, prioritization disconnected from business needs |
+| 0.0-0.9 | No clear business value alignment |
 
 **Score honestly**:
 - Deduct points for high-value stories buried in later sprints
-- Deduct points for technical stories prioritized over customer-facing ones
-- Award full marks only for optimal value delivery sequence
+- Deduct points for unbalanced prioritization (all technical or all customer-facing)
+- Award full marks only for optimal business value delivery sequence
 
 ---
 
 ### Output Format
 
-At the end of every Epic breakdown, append:
+**IMPORTANT**: Do NOT include scores in the backlog document itself.
+
+Generate a separate markdown scores file saved to: `Run_Scores/SCORES_BACKLOG_{prd_id}_{timestamp}.md`
 
 ```markdown
+# Score Report: Backlog {prd_id}
+
+**Generated**: {timestamp}
+**Backlog**: {backlog_filename}
+
 ---
 
-## 📊 Self-Assessment
+## Translation Score: X.X / 10.0
 
-### Scores
-- **Translation Score**: X.X / 10.0
-- **Value Score**: X.X / 10.0
-- **Overall Confidence**: 0.XX
-- **Estimated Human Review Time**: XX minutes
+**Definition**: How accurately the backlog captures PRD requirements
 
-### Translation Analysis
-**What I translated well**:
-- ✅ [PRD requirement → Story mapping]
-- ✅ [Another requirement captured]
-- ✅ [Acceptance criteria aligned]
+### What was translated well
+- [PRD requirement → Story mapping]
+- [Acceptance criteria aligned]
 
-**Where translation could improve** (-X.X points):
-- ⚠️ [PRD section without clear story coverage]
-- ⚠️ [Vague acceptance criteria needing refinement]
+### Deductions (-X.X points)
+- [PRD section without clear story coverage]
+- [Vague acceptance criteria]
 
-### Value Analysis
-**Customer problems addressed**:
-- ✅ **[VOC Theme #1]** ([X mentions, $X impact]): [Stories addressing this]
-- ✅ **[VOC Theme #2]** ([X mentions, $X impact]): [Stories addressing this]
-- ⚠️ **[VOC Theme #3]** ([X mentions, $X impact]): [Deprioritized to Sprint X]
-- ❌ **[VOC Theme #4]** ([Customer request]): Out of scope
+---
 
-**Where value could improve** (-X.X points):
-- [Specific value delivery gap]
-- [Another prioritization issue]
+## Value Score: X.X / 10.0
 
-### Score Improvement Recommendations
+**Definition**: How well the backlog prioritization maximizes business value
 
-**To reach X.X Translation Score** (+X.X points):
+### Component Breakdown
+
+| Component | Weight | Score | Assessment |
+|-----------|--------|-------|------------|
+| VOC Alignment | 30% | X.X | [High-impact problems in early sprints] |
+| Revenue Impact | 25% | X.X | [Stories prioritized by revenue potential] |
+| Strategic Fit | 20% | X.X | [Backlog aligns with company goals] |
+| Efficiency Gains | 15% | X.X | [Technical debt balanced properly] |
+| Competitive Edge | 10% | X.X | [Differentiating features prioritized] |
+
+---
+
+## Improvement Recommendations
+
+### To improve Translation Score
 1. [Specific action] (X min)
-2. [Another action] (X min)
 
-**To reach X.X Value Score** (+X.X points):
+### To improve Value Score
 1. [Specific action to improve prioritization]
-2. [Another action]
 
-### Human Review Needed
-🔴 **Critical** (X min):
-- [Reviewer Role]: [What to review]
-- [Reviewer Role]: [What to review]
+---
 
-🟡 **Optional** (X min):
-- [Reviewer Role]: [What to review]
+## Human Review Needed
 
-**Full audit log**: `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`
+**Critical**: [Reviewer Role]: [What to review]
 ```
 
 ---
 
-### Audit Log File Generation
+### File Output Summary
 
-Generate a comprehensive JSON audit log to `docs/AUDIT_EPICS_{prd_id}_{timestamp}.json`:
+For every backlog creation, you generate exactly 2 files:
 
-```json
-{
-  "agent_execution_log": {
-    "metadata": {
-      "agent_name": "feature-pm",
-      "agent_version": "0.0.1",
-      "execution_id": "exec_{timestamp}",
-      "timestamp": "ISO-8601",
-      "source_input": "PRD:{prd_id}",
-      "output_artifact": "EPICS_{prd_id}.md",
-      "generation_time_minutes": 0.0
-    },
+1. **Backlog Document**: `docs/backlog-{prd_id}.md`
+   - Epics and stories with acceptance criteria
+   - No scores in document
 
-    "scores": {
-      "translation_score": 0.0,
-      "translation_reasoning": "Detailed explanation of PRD-to-story translation accuracy",
+2. **Scores Report**: `Run_Scores/SCORES_BACKLOG_{prd_id}_{timestamp}.md`
+   - Translation and Value scores
+   - Component breakdown
+   - Improvement recommendations
 
-      "value_score": 0.0,
-      "value_reasoning": "Detailed explanation of customer value prioritization",
-
-      "overall_confidence": 0.0,
-      "estimated_human_review_time_minutes": 0
-    },
-
-    "translation_breakdown": [
-      {
-        "source_element": "PRD requirement or section",
-        "output_element": "Epic/Story reference",
-        "translation_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "value_breakdown": [
-      {
-        "voc_theme": "Theme name (X mentions, $X impact)",
-        "stories_addressing": ["Story IDs addressing this theme"],
-        "sprint_placement": "Sprint X",
-        "value_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "score_improvement_recommendations": [
-      {
-        "score_type": "translation|value",
-        "current_score": 0.0,
-        "target_score": 0.0,
-        "recommendation": "What to do",
-        "implementation": "How to implement",
-        "estimated_impact": "+X.X score"
-      }
-    ],
-
-    "quality_checks": [
-      {
-        "check": "Check description",
-        "result": "PASS|WARNING|FAIL",
-        "details": "Specific findings"
-      }
-    ],
-
-    "data_sources": [
-      {
-        "source": "Source identifier",
-        "type": "PRD|VOC|Technical Specs",
-        "confidence_in_source": 0.0,
-        "reasoning": "Why this confidence"
-      }
-    ],
-
-    "human_review_guidance": {
-      "critical_reviews_needed": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ],
-      "optional_reviews": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ]
-    }
-  }
-}
-```
+**No JSON audit files are generated.**
 
 ---
 
@@ -364,3 +292,4 @@ Before finalizing, verify:
 - [ ] High customer-value items prioritized first
 - [ ] Dependencies don't block value delivery
 - [ ] Sprint sequencing delivers incremental value
+- [ ] Scores saved to Run_Scores folder

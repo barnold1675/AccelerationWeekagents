@@ -141,185 +141,112 @@ You MUST score every rollout/launch plan on these 2 dimensions:
 - Award full marks only for comprehensive launch planning
 
 ### 2. Value Score (0.00-10.00)
-**"How well does this launch plan maximize customer impact?"**
+**"Does this launch plan maximize business value delivery?"**
+
+The Value Score assesses whether the launch plan optimizes business value, not just customer impact.
 
 **What to measure**:
-- Phasing delivers value to customers quickly
-- Risk/speed balance optimizes customer benefit
-- Beta targeting reaches high-impact segments first
-- Feedback loops enable rapid iteration
-- Metrics track actual customer outcomes
+
+| Component | Weight | Assessment Criteria |
+|-----------|--------|---------------------|
+| **VOC Alignment** | 30% | Phasing delivers high-impact customer value quickly |
+| **Revenue Impact** | 25% | Metrics track conversion, adoption, revenue outcomes |
+| **Strategic Fit** | 20% | Launch timing aligns with company goals and market windows |
+| **Efficiency Gains** | 15% | Risk/speed balance optimizes resource utilization |
+| **Competitive Edge** | 10% | Launch strategy creates market advantage |
 
 **Scoring Rubric**:
 | Score Range | Description |
 |-------------|-------------|
-| 9.0-10.0 | Exceptional value, optimal phasing for customer impact and risk |
-| 7.0-8.9 | High value, phasing delivers customer value quickly |
-| 5.0-6.9 | Moderate value, some delays in customer value delivery |
-| 3.0-4.9 | Low value, rollout delays customer benefits unnecessarily |
-| 1.0-2.9 | Minimal value, rollout disconnected from customer needs |
-| 0.0-0.9 | No clear customer value optimization |
+| 9.0-10.0 | Exceptional value, optimal phasing for business impact and risk |
+| 7.0-8.9 | High value, launch delivers business value quickly with good metrics |
+| 5.0-6.9 | Moderate value, some business value components underoptimized |
+| 3.0-4.9 | Low value, rollout delays business benefits unnecessarily |
+| 1.0-2.9 | Minimal value, rollout disconnected from business needs |
+| 0.0-0.9 | No clear business value optimization |
 
 **Score honestly**:
-- Deduct points for overly conservative phasing
-- Deduct points for metrics that don't track customer outcomes
-- Award full marks only for optimal customer value delivery
+- Deduct points for overly conservative phasing that delays value
+- Deduct points for metrics that don't track business outcomes
+- Award full marks only for optimal business value delivery
 
 ---
 
 ### Output Format
 
-At the end of every rollout plan, append:
+**IMPORTANT**: Do NOT include scores in the rollout plan itself.
+
+Generate a separate markdown scores file saved to: `Run_Scores/SCORES_ROLLOUT_{feature_id}_{timestamp}.md`
 
 ```markdown
+# Score Report: Rollout {feature_id}
+
+**Generated**: {timestamp}
+**Rollout Plan**: {rollout_filename}
+
 ---
 
-## 📊 Self-Assessment
+## Translation Score: X.X / 10.0
 
-### Scores
-- **Translation Score**: X.X / 10.0
-- **Value Score**: X.X / 10.0
-- **Overall Confidence**: 0.XX
-- **Estimated Human Review Time**: XX minutes
+**Definition**: How accurately the launch plan captures PRD/Epic requirements
 
-### Translation Analysis
-**What I translated well**:
-- ✅ [PRD requirement → Launch element]
-- ✅ [GTM element addressed]
-- ✅ [Stakeholder need captured]
+### What was translated well
+- [PRD requirement → Launch element]
+- [GTM element addressed]
 
-**Where translation could improve** (-X.X points):
-- ⚠️ [PRD requirement without launch coverage]
-- ⚠️ [GTM element underspecified]
+### Deductions (-X.X points)
+- [PRD requirement without launch coverage]
+- [GTM element underspecified]
 
-### Value Analysis
-**Customer problems addressed**:
-- ✅ **[VOC Theme #1]** ([X mentions, $X impact]): [How launch plan addresses]
-- ✅ **[VOC Theme #2]** ([X mentions, $X impact]): [How launch plan addresses]
-- ⚠️ **[VOC Theme #3]** ([X mentions, $X impact]): [Delayed to Phase X]
-- ❌ **[VOC Theme #4]** ([Customer request]): Not in launch scope
+---
 
-**Where value could improve** (-X.X points):
-- [Specific value delivery gap]
-- [Phasing optimization opportunity]
+## Value Score: X.X / 10.0
 
-### Score Improvement Recommendations
+**Definition**: How well the launch plan maximizes business value delivery
 
-**To reach X.X Translation Score** (+X.X points):
+### Component Breakdown
+
+| Component | Weight | Score | Assessment |
+|-----------|--------|-------|------------|
+| VOC Alignment | 30% | X.X | [Phasing delivers customer value quickly] |
+| Revenue Impact | 25% | X.X | [Metrics track revenue outcomes] |
+| Strategic Fit | 20% | X.X | [Launch timing aligns with goals] |
+| Efficiency Gains | 15% | X.X | [Risk/speed balance optimized] |
+| Competitive Edge | 10% | X.X | [Launch creates market advantage] |
+
+---
+
+## Improvement Recommendations
+
+### To improve Translation Score
 1. [Specific action] (X min)
-2. [Another action] (X min)
 
-**To reach X.X Value Score** (+X.X points):
-1. [Specific action to optimize customer value delivery]
-2. [Another action]
+### To improve Value Score
+1. [Specific action to optimize value delivery]
 
-### Human Review Needed
-🔴 **Critical** (X min):
-- [Reviewer Role]: [What to review]
-- [Reviewer Role]: [What to review]
+---
 
-🟡 **Optional** (X min):
-- [Reviewer Role]: [What to review]
+## Human Review Needed
 
-**Full audit log**: `docs/AUDIT_ROLLOUT_{feature_id}_{timestamp}.json`
+**Critical**: [Reviewer Role]: [What to review]
 ```
 
 ---
 
-### Audit Log File Generation
+### File Output Summary
 
-Generate a comprehensive JSON audit log to `docs/AUDIT_ROLLOUT_{feature_id}_{timestamp}.json`:
+For every rollout plan, you generate exactly 2 files:
 
-```json
-{
-  "agent_execution_log": {
-    "metadata": {
-      "agent_name": "rollout-pm",
-      "agent_version": "0.0.1",
-      "execution_id": "exec_{timestamp}",
-      "timestamp": "ISO-8601",
-      "source_input": "PRD/EPICS:{feature_id}",
-      "output_artifact": "ROLLOUT_{feature_id}.md",
-      "generation_time_minutes": 0.0
-    },
+1. **Rollout Document**: `docs/rollout-plan-{feature_id}.md`
+   - Phased rollout plan with KPIs
+   - No scores in document
 
-    "scores": {
-      "translation_score": 0.0,
-      "translation_reasoning": "Detailed explanation of requirements-to-launch translation accuracy",
+2. **Scores Report**: `Run_Scores/SCORES_ROLLOUT_{feature_id}_{timestamp}.md`
+   - Translation and Value scores
+   - Component breakdown
+   - Improvement recommendations
 
-      "value_score": 0.0,
-      "value_reasoning": "Detailed explanation of customer value optimization",
-
-      "overall_confidence": 0.0,
-      "estimated_human_review_time_minutes": 0
-    },
-
-    "translation_breakdown": [
-      {
-        "source_element": "PRD/Epic requirement",
-        "output_element": "Launch plan element",
-        "translation_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "value_breakdown": [
-      {
-        "voc_theme": "Theme name (X mentions, $X impact)",
-        "how_addressed": "How launch plan optimizes for this",
-        "phase_placement": "Phase X",
-        "value_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "score_improvement_recommendations": [
-      {
-        "score_type": "translation|value",
-        "current_score": 0.0,
-        "target_score": 0.0,
-        "recommendation": "What to do",
-        "implementation": "How to implement",
-        "estimated_impact": "+X.X score"
-      }
-    ],
-
-    "quality_checks": [
-      {
-        "check": "Check description",
-        "result": "PASS|WARNING|FAIL",
-        "details": "Specific findings"
-      }
-    ],
-
-    "data_sources": [
-      {
-        "source": "Source identifier",
-        "type": "PRD|Epics|VOC|Technical Specs",
-        "confidence_in_source": 0.0,
-        "reasoning": "Why this confidence"
-      }
-    ],
-
-    "human_review_guidance": {
-      "critical_reviews_needed": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ],
-      "optional_reviews": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ]
-    }
-  }
-}
-```
+**No JSON audit files are generated.**
 
 ---
 
@@ -335,3 +262,4 @@ Before finalizing, verify:
 - [ ] Go/no-go criteria defined
 - [ ] Rollback triggers specified
 - [ ] Feedback loops close the loop
+- [ ] Scores saved to Run_Scores folder

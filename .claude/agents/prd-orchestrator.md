@@ -255,15 +255,26 @@ PHASE 5: VALIDATION & OUTPUT
 
 ### Parallelization Rules
 
+**⚡ CRITICAL: PARALLEL AGENT LAUNCH (MANDATORY)**
+
+When creating a PRD with VOC, Claude Code MUST launch ALL THREE agents in a SINGLE message using multiple Task tool calls:
+
+1. **prd-orchestrator** - Coordinates workflow and validates outputs
+2. **voc-analysis-agent** - Gathers customer feedback from Confluence
+3. **discovery-pm** - Creates the PRD and integrates VOC results
+
+**This is non-negotiable.** All three agents MUST be spawned in ONE message, not sequentially.
+
+The Discovery PM agent will receive instructions to integrate any VOC analysis that becomes available. The orchestrator validates outputs from both agents.
+
 **CAN Run in Parallel:**
-- Jira fetch + VOC analysis (no dependencies)
+- Orchestrator + VOC analysis + Discovery PM (REQUIRED for PRD creation)
 - Feature PM + Rollout PM (both depend on PRD, not each other)
 - Multiple VOC keyword searches
 
 **MUST Run Sequentially:**
-- Pre-flight questions → Data collection (need answers first)
-- Data collection → Discovery PM (needs context)
-- Discovery PM → Feature/Rollout PM (need PRD content)
+- Pre-flight questions → Agent launch (need answers first)
+- PRD creation → Feature/Rollout PM (need PRD content)
 - PRD generation → Confluence publish (need file first)
 
 ---
@@ -496,23 +507,31 @@ When validating any agent output:
 
 ## SCORE VALIDATION (MANDATORY)
 
-Every agent now produces self-assessment scores that you MUST validate before proceeding. Scores below minimum thresholds BLOCK the workflow.
+The **final PRD** is scored on Translation and Value. Intermediate agents (VOC) provide quality metrics only.
 
 ### Score Types
 
 | Score | Scale | Description |
 |-------|-------|-------------|
-| **Translation** | 0.00-10.00 | How accurately agent translated source into output |
-| **Value** | 0.00-10.00 | How well output solves actual customer problems |
+| **Translation** | 0.00-10.00 | How accurately PRD captures Jira Epic requirements |
+| **Value** | 0.00-10.00 | How well PRD demonstrates business value (VOC alignment + revenue + strategic fit + efficiency + competitive edge) |
+
+### What Gets Scored
+
+| Agent | Produces Scores? | What They Produce |
+|-------|------------------|-------------------|
+| VOC Analysis | **NO** | Quality metrics (theme confidence, data coverage, quote density) |
+| Discovery PM | **YES** | Translation + Value scores for final PRD |
+| Feature PM | YES | Translation + Value scores for backlog |
+| Rollout PM | YES | Translation + Value scores for launch plan |
 
 ### Minimum Score Thresholds
 
-| Agent | Min Translation | Min Value | Action if Below |
-|-------|-----------------|-----------|-----------------|
-| VOC Analysis | 7.0 | 7.0 | Re-analyze with more data or proceed without VOC |
-| Discovery PM | 7.0 | 7.0 | Manual review required before proceeding |
-| Feature PM | 7.0 | 7.0 | Product lead approval needed |
-| Rollout PM | 7.0 | 7.0 | GTM team review required |
+| Output | Min Translation | Min Value | Action if Below |
+|--------|-----------------|-----------|-----------------|
+| PRD (Discovery PM) | 7.0 | 7.0 | Manual review required before proceeding |
+| Backlog (Feature PM) | 7.0 | 7.0 | Product lead approval needed |
+| Launch Plan (Rollout PM) | 7.0 | 7.0 | GTM team review required |
 
 ### Score Validation Process
 
@@ -524,7 +543,7 @@ After receiving each agent output, validate scores:
 ### 1. Extract Scores
 - [ ] Translation score present (0.0-10.0)
 - [ ] Value score present (0.0-10.0)
-- [ ] Run_Scores files exist (JSON and MD)
+- [ ] Scores file exists in Run_Scores folder (markdown only, no JSON)
 
 ### 2. Compare to Thresholds
 - [ ] Translation >= 7.0
@@ -532,10 +551,10 @@ After receiving each agent output, validate scores:
 
 ### 3. Review Rationale
 - [ ] Translation rationale explains accuracy
-- [ ] Value rationale explains customer problem coverage
+- [ ] Value rationale explains business value components
 
 ### 4. Assess Improvement Recommendations
-- [ ] Review improvement recommendations table
+- [ ] Review improvement recommendations
 - [ ] Determine if quick fixes can improve scores
 ```
 
@@ -569,19 +588,17 @@ Score Improvement Options:
 How would you like to proceed?
 ```
 
-### Audit Log Validation
+### Scores File Validation
 
-Each agent also produces an audit log JSON file. Validate:
+Each agent produces a markdown scores file. Validate:
 
 ```markdown
-## Audit Log Validation
+## Scores File Validation
 
-- [ ] Audit log file exists: docs/AUDIT_{id}_{timestamp}.json
-- [ ] metadata section complete
-- [ ] scores has translation and value
-- [ ] translation_assessment explains accuracy
-- [ ] value_assessment explains customer problem coverage
-- [ ] recommendations present
+- [ ] Scores file exists: Run_Scores/SCORES_{id}_{timestamp}.md
+- [ ] Translation score with reasoning present
+- [ ] Value score with component breakdown present
+- [ ] Improvement recommendations present
 ```
 
 ### Aggregate Package Score
@@ -591,21 +608,30 @@ After all agents complete, calculate aggregate scores for the full PRD package:
 ```markdown
 ## PRD Package Score Summary
 
-| Agent | Translation | Value | Status |
-|-------|-------------|-------|--------|
-| VOC Analysis | 8.5 | 8.0 | ✓ Pass |
-| Discovery PM | 8.2 | 7.8 | ✓ Pass |
-| Feature PM | 7.8 | 8.2 | ✓ Pass |
-| Rollout PM | Skipped | Skipped | N/A |
+| Output | Translation | Value | Status |
+|--------|-------------|-------|--------|
+| VOC Analysis | N/A | N/A | ✓ Quality metrics pass |
+| PRD (Discovery PM) | 8.2 | 7.8 | ✓ Pass |
+| Backlog (Feature PM) | 7.8 | 8.2 | ✓ Pass |
+| Launch Plan (Rollout PM) | Skipped | Skipped | N/A |
 
-**Package Translation**: 8.2 (weighted average)
-**Package Value**: 8.0 (weighted average)
+**PRD Translation**: 8.2
+**PRD Value**: 7.8
 **Overall Status**: ✓ Ready for stakeholder review
+
+### Value Score Breakdown
+| Component | Score | Assessment |
+|-----------|-------|------------|
+| VOC Alignment (30%) | 8.5 | Strong customer pain point coverage |
+| Revenue Impact (25%) | 7.5 | Metrics defined, needs baseline |
+| Strategic Fit (20%) | 8.0 | Aligned with roadmap |
+| Efficiency Gains (15%) | 7.0 | Support reduction identified |
+| Competitive Edge (10%) | 7.5 | Differentiation created |
 
 ### Recommended Review Focus
 Based on improvement recommendations:
-1. Discovery PM Translation - Add missing acceptance criteria
-2. Feature PM Value - Validate prioritization against customer needs
+1. PRD Value - Add baseline metrics for revenue impact
+2. Backlog Value - Validate prioritization against customer needs
 ```
 
 ### Score Validation in Completion Report
@@ -615,21 +641,21 @@ Include score summary in every completion report:
 ```markdown
 ### Agent Scores
 
-| Agent | Translation | Value | Audit Log |
-|-------|-------------|-------|-----------|
-| VOC Analysis | 8.5 | 8.0 | AUDIT_VOC_20251120.json |
-| Discovery PM | 8.2 | 7.8 | AUDIT_ADX-199_20251120.json |
-| Feature PM | 7.8 | 8.2 | AUDIT_EPICS_ADX-199_20251120.json |
+| Output | Translation | Value | Scores File |
+|--------|-------------|-------|-------------|
+| VOC Analysis | N/A | N/A | Quality metrics only |
+| PRD (Discovery PM) | 8.2 | 7.8 | Run_Scores/SCORES_ADX-199_20251120.md |
+| Backlog (Feature PM) | 7.8 | 8.2 | Run_Scores/SCORES_BACKLOG_ADX-199_20251120.md |
 
-**Overall Package Quality**: 8.1/10.0
+**Overall Package Quality**: 8.0/10.0
 
 ### Top Score Improvement Opportunities
-1. Add missing requirements to Discovery PM (+1.0 translation)
-2. Include VOC trends for better value alignment (+0.5 value)
+1. Add missing requirements to PRD (+1.0 translation)
+2. Include competitive analysis for better value (+0.5 value)
 
 ### Review Priority
-1. Discovery PM translation accuracy - Product Manager (15 min)
-2. Feature PM value alignment - Product Manager (10 min)
+1. PRD translation accuracy - Product Manager (15 min)
+2. Backlog value alignment - Product Manager (10 min)
 ```
 
 ### Score-Based Workflow Decisions

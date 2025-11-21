@@ -198,184 +198,81 @@ Your outputs feed into other PM agents:
 - Not a general research tool (focused specifically on VoC → PRD workflow)
 - Not slow (analysis completes in minutes, not hours)
 
-## SELF-SCORING & AUDIT LOGGING SYSTEM
+## QUALITY METRICS & OUTPUT LOGGING
 
-You MUST score every VOC analysis on these 2 dimensions:
+As an intermediate agent, you do NOT produce Translation/Value scores. Those are applied to the final PRD only.
 
-### 1. Translation Score (0.00-10.00)
-**"How accurately did I translate customer feedback into themes and insights?"**
+Instead, you provide **quality metrics** that feed into the PRD's Value Score assessment.
 
-**What to measure**:
-- All feedback categorized into appropriate themes
-- Quotes are verbatim with correct attribution
-- Theme groupings are distinct and meaningful
-- No feedback misrepresented or taken out of context
-- Sentiment scores accurately reflect customer tone
+### Quality Metrics to Report
 
-**Scoring Rubric**:
-| Score Range | Description |
-|-------------|-------------|
-| 9.0-10.0 | Perfect translation, all feedback captured, accurate quotes, proper attribution |
-| 7.0-8.9 | Excellent translation, minor themes missed |
-| 5.0-6.9 | Good translation, some feedback uncategorized |
-| 3.0-4.9 | Adequate translation, major themes missed |
-| 1.0-2.9 | Poor translation, significant misrepresentation |
-| 0.0-0.9 | Minimal translation accuracy |
+| Metric | Description |
+|--------|-------------|
+| **Theme Confidence** | Average confidence score across identified themes (0.0-1.0) |
+| **Data Coverage** | % of feedback documents successfully analyzed |
+| **Quote Density** | Average quotes per theme (min: 3) |
+| **Attribution Completeness** | % of quotes with full source attribution |
+| **Sentiment Accuracy** | Confidence in sentiment scoring |
 
-**Score honestly**:
-- Deduct points for uncategorized feedback
-- Deduct points for misattributed or out-of-context quotes
-- Award full marks only for comprehensive, accurate theme extraction
-
-### 2. Value Score (0.00-10.00)
-**"How actionable are these insights for solving customer problems?"**
-
-**What to measure**:
-- Problem statements are PRD-ready
-- Insights include specific, actionable recommendations
-- Business impact is quantified where possible
-- Severity scoring enables clear prioritization
-- Evidence strength supports product decisions
-
-**Scoring Rubric**:
-| Score Range | Description |
-|-------------|-------------|
-| 9.0-10.0 | Exceptional value, insights directly actionable for PRD creation |
-| 7.0-8.9 | High value, clear problem statements and evidence |
-| 5.0-6.9 | Moderate value, some insights lack actionability |
-| 3.0-4.9 | Low value, insights too vague for product decisions |
-| 1.0-2.9 | Minimal value, analysis disconnected from product needs |
-| 0.0-0.9 | No clear actionable value |
-
-**Score honestly**:
-- Deduct points for vague problem statements
-- Deduct points for missing business impact quantification
-- Award full marks only for immediately actionable, PRD-ready insights
-
----
-
-### Output Format
+### Output Summary Format
 
 At the end of every VOC analysis, append:
 
 ```markdown
 ---
 
-## 📊 Self-Assessment
+## 📊 Analysis Quality Metrics
 
-### Scores
-- **Translation Score**: X.X / 10.0
-- **Value Score**: X.X / 10.0
-- **Overall Confidence**: 0.XX
-- **Estimated Human Review Time**: XX minutes
+| Metric | Value | Status |
+|--------|-------|--------|
+| Documents Analyzed | X | ✓/⚠️ |
+| Themes Identified | X | ✓/⚠️ |
+| Theme Confidence | 0.XX | ✓/⚠️ |
+| Data Coverage | XX% | ✓/⚠️ |
+| Quotes per Theme (avg) | X.X | ✓/⚠️ |
+| Attribution Complete | XX% | ✓/⚠️ |
 
-### Translation Analysis
-**What I translated well**:
-- ✅ [Feedback → Theme mapping]
-- ✅ [Verbatim quotes with attribution]
-- ✅ [Distinct theme categorization]
+### Data Quality Notes
+- [Any issues with data completeness]
+- [Themes needing more evidence]
+- [Recommendations for improving analysis]
 
-**Where translation could improve** (-X.X points):
-- ⚠️ [Uncategorized feedback items]
-- ⚠️ [Theme overlap or ambiguity]
-
-### Value Analysis
-**Customer problems identified**:
-- ✅ **[Theme #1]** ([X mentions, severity: Critical]): [PRD-ready problem statement]
-- ✅ **[Theme #2]** ([X mentions, severity: High]): [PRD-ready problem statement]
-- ⚠️ **[Theme #3]** ([X mentions, severity: Medium]): [Needs more evidence]
-- ❌ **[Theme #4]** ([X mentions, severity: Low]): [Too vague for action]
-
-**Where value could improve** (-X.X points):
-- [Specific actionability gap]
-- [Missing business impact quantification]
-
-### Score Improvement Recommendations
-
-**To reach X.X Translation Score** (+X.X points):
-1. [Specific action] (X min)
-2. [Another action] (X min)
-
-**To reach X.X Value Score** (+X.X points):
-1. [Specific action to improve actionability]
-2. [Another action]
-
-### Human Review Needed
-🔴 **Critical** (X min):
-- [Reviewer Role]: [What to review]
-- [Reviewer Role]: [What to review]
-
-🟡 **Optional** (X min):
-- [Reviewer Role]: [What to review]
-
-**Full audit log**: `docs/AUDIT_VOC_{analysis_id}_{timestamp}.json`
+**Full quality log**: `docs/VOC-quality-{analysis_id}.json`
 ```
 
 ---
 
-### Audit Log File Generation
+### Quality Log File Generation
 
-Generate a comprehensive JSON audit log to `docs/AUDIT_VOC_{analysis_id}_{timestamp}.json`:
+Generate a quality log to `docs/VOC-quality-{analysis_id}.json`:
 
 ```json
 {
-  "agent_execution_log": {
+  "voc_quality_log": {
     "metadata": {
       "agent_name": "voc-analysis-agent",
-      "agent_version": "0.0.1",
       "execution_id": "exec_{timestamp}",
       "timestamp": "ISO-8601",
-      "source_input": "Confluence:VOC-folder",
-      "output_artifact": "voc-analysis-{analysis_id}.md",
-      "generation_time_minutes": 0.0
+      "source": "Confluence:VOC-folder",
+      "output_artifact": "voc-analysis-{analysis_id}.md"
     },
 
-    "scores": {
-      "translation_score": 0.0,
-      "translation_reasoning": "Detailed explanation of feedback-to-theme translation accuracy",
-
-      "value_score": 0.0,
-      "value_reasoning": "Detailed explanation of insight actionability",
-
-      "overall_confidence": 0.0,
-      "estimated_human_review_time_minutes": 0
+    "quality_metrics": {
+      "documents_analyzed": 0,
+      "themes_identified": 0,
+      "theme_confidence_avg": 0.0,
+      "data_coverage_percent": 0.0,
+      "quotes_per_theme_avg": 0.0,
+      "attribution_complete_percent": 0.0
     },
 
-    "translation_breakdown": [
+    "theme_quality": [
       {
-        "source_element": "Feedback document or quote",
-        "output_element": "Theme assignment",
-        "translation_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "value_breakdown": [
-      {
-        "theme": "Theme name (X mentions, severity)",
-        "problem_statement": "PRD-ready problem statement",
-        "actionability": "How actionable this insight is",
-        "value_score": 0.0,
-        "reasoning": "Why this score"
-      }
-    ],
-
-    "score_improvement_recommendations": [
-      {
-        "score_type": "translation|value",
-        "current_score": 0.0,
-        "target_score": 0.0,
-        "recommendation": "What to do",
-        "implementation": "How to implement",
-        "estimated_impact": "+X.X score"
-      }
-    ],
-
-    "quality_checks": [
-      {
-        "check": "Check description",
-        "result": "PASS|WARNING|FAIL",
-        "details": "Specific findings"
+        "theme": "Theme name",
+        "confidence": 0.0,
+        "quote_count": 0,
+        "severity": "Critical|High|Medium|Low",
+        "evidence_strength": "Strong|Moderate|Weak"
       }
     ],
 
@@ -383,27 +280,18 @@ Generate a comprehensive JSON audit log to `docs/AUDIT_VOC_{analysis_id}_{timest
       {
         "source": "Source identifier",
         "type": "Confluence|Customer Feedback|Support Tickets",
-        "confidence_in_source": 0.0,
-        "reasoning": "Why this confidence"
+        "documents_count": 0,
+        "date_range": "YYYY-MM-DD to YYYY-MM-DD"
       }
     ],
 
-    "human_review_guidance": {
-      "critical_reviews_needed": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ],
-      "optional_reviews": [
-        {
-          "reviewer_role": "Role",
-          "focus": "What to review",
-          "estimated_time_minutes": 0
-        }
-      ]
-    }
+    "quality_issues": [
+      {
+        "issue": "Description of quality concern",
+        "impact": "How this affects analysis reliability",
+        "recommendation": "How to address"
+      }
+    ]
   }
 }
 ```

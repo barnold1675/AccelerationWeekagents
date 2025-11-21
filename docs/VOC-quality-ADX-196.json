@@ -1,0 +1,154 @@
+{
+  "voc_quality_log": {
+    "metadata": {
+      "agent_name": "voc-analysis-agent",
+      "execution_id": "exec_20251120_ADX196",
+      "timestamp": "2025-11-20T00:00:00.000Z",
+      "source": "Confluence:PageID-132841475",
+      "output_artifact": "docs/voc-analysis-ADX-196.md",
+      "jira_ticket": "ADX-196"
+    },
+
+    "quality_metrics": {
+      "documents_analyzed": 31,
+      "themes_identified": 5,
+      "theme_confidence_avg": 0.88,
+      "data_coverage_percent": 100.0,
+      "quotes_per_theme_avg": 3.2,
+      "attribution_complete_percent": 100.0,
+      "analysis_period_days": 13,
+      "mobile_feedback_percent": 65.0
+    },
+
+    "theme_quality": [
+      {
+        "theme": "Site Performance & Speed Issues",
+        "confidence": 0.95,
+        "quote_count": 14,
+        "severity": "Critical",
+        "evidence_strength": "Strong",
+        "frequency_percent": 45.0,
+        "sentiment_score": -0.8
+      },
+      {
+        "theme": "App/Platform Functionality Issues",
+        "confidence": 0.92,
+        "quote_count": 11,
+        "severity": "High",
+        "evidence_strength": "Strong",
+        "frequency_percent": 35.0,
+        "sentiment_score": -0.75
+      },
+      {
+        "theme": "Poor Usability & User Experience",
+        "confidence": 0.88,
+        "quote_count": 10,
+        "severity": "High",
+        "evidence_strength": "Strong",
+        "frequency_percent": 32.0,
+        "sentiment_score": -0.65
+      },
+      {
+        "theme": "Navigation & Scroll Position Issues",
+        "confidence": 0.85,
+        "quote_count": 5,
+        "severity": "Medium",
+        "evidence_strength": "Moderate",
+        "frequency_percent": 16.0,
+        "sentiment_score": -0.55
+      },
+      {
+        "theme": "Authentication & Session Issues",
+        "confidence": 0.82,
+        "quote_count": 4,
+        "severity": "Medium",
+        "evidence_strength": "Moderate",
+        "frequency_percent": 13.0,
+        "sentiment_score": -0.6
+      }
+    ],
+
+    "data_sources": [
+      {
+        "source": "Post Purchase Survey",
+        "type": "Customer Feedback",
+        "documents_count": 22,
+        "date_range": "2025-11-04 to 2025-11-16"
+      },
+      {
+        "source": "Always On Survey",
+        "type": "Customer Feedback",
+        "documents_count": 8,
+        "date_range": "2025-11-04 to 2025-11-14"
+      },
+      {
+        "source": "Abandon Checkout Survey",
+        "type": "Customer Feedback",
+        "documents_count": 1,
+        "date_range": "2025-11-12"
+      }
+    ],
+
+    "customer_segments": {
+      "by_device": {
+        "mobile": 20,
+        "desktop": 11
+      },
+      "by_premise_type": {
+        "on_premise": 13,
+        "off_premise": 15,
+        "not_set": 3
+      },
+      "by_state": {
+        "FL": 4,
+        "NY": 4,
+        "CA": 4,
+        "TX": 3,
+        "Other": 16
+      }
+    },
+
+    "quality_issues": [
+      {
+        "issue": "Limited time period (13 days)",
+        "impact": "May not capture full trend patterns",
+        "recommendation": "Extend analysis to 90-day lookback for trend validation"
+      },
+      {
+        "issue": "No segmentation by user type (new vs returning)",
+        "impact": "Cannot isolate first-time visitor experience specifically",
+        "recommendation": "Add user cohort tracking in future surveys"
+      },
+      {
+        "issue": "Heavy mobile skew (65%)",
+        "impact": "Desktop experience insights may be underrepresented",
+        "recommendation": "Consider balanced sampling or weighted analysis"
+      }
+    ],
+
+    "prd_relevance": {
+      "ticket": "ADX-196",
+      "title": "Unauthenticated Homepage",
+      "key_themes_applicable": [
+        "Site Performance & Speed Issues",
+        "Poor Usability & User Experience",
+        "Navigation & Scroll Position Issues"
+      ],
+      "critical_requirements": [
+        "Fast page load (<2 seconds)",
+        "Mobile-first design",
+        "Simplified navigation",
+        "Rich visual content",
+        "Clear value proposition"
+      ],
+      "recommended_metrics": [
+        "Page load time",
+        "Bounce rate",
+        "Time on page",
+        "Scroll depth",
+        "CTA click-through rate",
+        "Registration conversion rate"
+      ]
+    }
+  }
+}
